@@ -1,8 +1,12 @@
+using UnityEngine;
+
 public class Node<T> {
+	private Vector2 position;
 	private T value;
 	private Node<T> up, right, down, left;
 
-	public Node(T value) {
+	public Node(Vector2 position, T value) {
+		this.position = position;
 		this.value = value;
 	}
 
@@ -32,6 +36,10 @@ public class Node<T> {
 	}
 
 	// --------------------------------------------------
+
+	public Vector2 GetPosition() {
+		return this.position;
+	}
 
 	public T GetValue() {
 		return this.value;
