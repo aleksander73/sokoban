@@ -16,7 +16,7 @@ public class Grid<T> {
 		Node<T> foundNode = null;
 		for(int i = 0; i < this.nodes.Count; i++) {
 			Node<T> node = this.nodes[i];
-			if(node.GetPosition() == position) { 
+			if(node.GetPosition() == position) {
 				foundNode = node;
 				break;
 			}
@@ -28,5 +28,13 @@ public class Grid<T> {
 		Node<T> node = new Node<T>(position, value);
 		this.nodes.Add(node);
 		return node;
+	}
+
+	public void Translate(Vector2 dv) {
+		for(int i = 0; i < this.nodes.Count; i++) {
+			Node<T> node = this.nodes[i];
+			Vector2 newPosition = node.GetPosition() + dv;
+			node.SetPosition(newPosition);
+		}
 	}
 }

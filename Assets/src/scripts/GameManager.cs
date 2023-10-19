@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 	public LevelManager levelManager;
+	public int levelToLoad;
 
-    public void Start() {
-		this.levelManager.LoadLevel(0);
-    }
+	public void Start() {
+		this.levelManager.LoadLevel(this.levelToLoad);
+	}
 }

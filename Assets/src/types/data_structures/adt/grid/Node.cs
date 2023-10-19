@@ -41,6 +41,10 @@ public class Node<T> {
 		return this.position;
 	}
 
+	public void SetPosition(Vector2 position) {
+		this.position = position;
+	}
+
 	public T GetValue() {
 		return this.value;
 	}
