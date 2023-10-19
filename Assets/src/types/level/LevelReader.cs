@@ -10,7 +10,7 @@ public class LevelReader {
 	private const char CHARACTER_CELL_TARGET = 'T';
 	private const char CHARACTER_CELL_WALL = 'W';
 
-	private LevelReaderInput levelReaderInput;
+	private readonly LevelReaderInput levelReaderInput;
 
 	public LevelReader(LevelReaderInput levelReaderInput) {
 		this.levelReaderInput = levelReaderInput;

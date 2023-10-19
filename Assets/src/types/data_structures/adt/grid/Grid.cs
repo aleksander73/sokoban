@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Grid<T> {
-	private List<Node<T>> nodes;
+	private readonly List<Node<T>> nodes;
 
 	public Grid() {
 		this.nodes = new List<Node<T>>();
