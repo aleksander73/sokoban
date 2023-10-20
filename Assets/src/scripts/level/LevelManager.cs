@@ -42,12 +42,16 @@ public class LevelManager : MonoBehaviour {
 		for(int i = 0; i < nodes.Count; i++) {
 			Node<Cell> node = nodes[i];
 			Cell cell = node.GetValue();
+
 			Vector3 cellPosition = new Vector3(node.GetPosition().x, node.GetPosition().y, FLOOR_LEVEL);
-			GameObject.Instantiate(cell.GetSprite(), cellPosition, Quaternion.identity, level.transform);
+			GameObject instance = GameObject.Instantiate(cell.GetSprite(), cellPosition, Quaternion.identity, level.transform);
+			instance.name = Utility.SimplifyInstanceName(instance.name);
+
 			GameObject occupier = cell.GetOccupier();
 			if(occupier != null) {
 				Vector3 occupierPosition = new Vector3(node.GetPosition().x, node.GetPosition().y, PLAYER_LEVEL);
-				GameObject.Instantiate(occupier, occupierPosition, Quaternion.identity);
+				instance = GameObject.Instantiate(occupier, occupierPosition, Quaternion.identity);
+				instance.name = Utility.SimplifyInstanceName(instance.name);
 			}
 		}
 	}
