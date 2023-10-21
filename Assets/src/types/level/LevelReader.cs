@@ -18,13 +18,7 @@ public class LevelReader {
 
 	public Level LoadLevel(string levelText) {
 		char[][] characters = this.ToCharacterArray(levelText);
-		Grid<Cell> grid = this.GenerateGrid(characters);
-
-		// Center the grid at the player's position
-		Vector2 playerPosition = this.GetPlayerPosition(grid);
-		grid.Translate(-playerPosition);
-
-		Level level = new Level(grid);
+		Level level = this.GenerateLevel(characters);
 		return level;
 	}
 
@@ -50,32 +44,47 @@ public class LevelReader {
 		return characters;
 	}
 
-	private Grid<Cell> GenerateGrid(char[][] characters) {
+	private Level GenerateLevel(char[][] characters) {
 		Grid<Cell> grid = new Grid<Cell>();
+		Vector2 player = new Vector2();
+		List<Vector2> boxes = new List<Vector2>();
 
 		int height = characters.Length;
 		int width = characters[0].Length;
 
 		for(int h = 0; h < height; h++) {
 			for(int w = 0; w < width; w++) {
-				Cell cell = this.CreateCell(characters[h][w]);
+				char character = characters[h][w];
+
+				Cell cell = this.CreateCell(character);
 				if(cell == null) {
 					continue;
 				}
 
-				Node<Cell> node = grid.AddNode(new Vector2(w, -h), cell);
-				Node<Cell> nodeLeft = grid.FindNodeByPosition(new Vector2(w - 1, h));
+				Vector2 nodePosition = new Vector2(w, -h);
+
+				Node<Cell> node = grid.AddNode(nodePosition, cell);
+				Node<Cell> nodeLeft = grid.FindNodeByPosition(nodePosition + Vector2.left);
 				if(nodeLeft != null) {
 					node.Connect(Direction.LEFT, nodeLeft);
 				}
-				Node<Cell> nodeUp = grid.FindNodeByPosition(new Vector2(w, h - 1));
+				Node<Cell> nodeUp = grid.FindNodeByPosition(nodePosition + Vector2.up);
 				if(nodeUp != null) {
 					node.Connect(Direction.UP, nodeUp);
+				}
+
+				// --------------------------------------------------
+
+				if(character == CHARACTER_CELL_PLAYER) {
+					player = nodePosition;
+				} else if(character == CHARACTER_CELL_BOX) {
+					boxes.Add(nodePosition);
 				}
 			}
 		}
 
-		return grid;
+		Level level = new Level(grid, player, boxes);
+		return level;
 	}
 
 	private Cell CreateCell(char character) {
@@ -84,18 +93,10 @@ public class LevelReader {
 			case CHARACTER_CELL_EMPTY: {
 				break;
 			}
-			case CHARACTER_CELL_BOX: {
-				cell = new Cell(CellType.FLOOR, this.levelReaderInput.GetFloor());
-				cell.SetOccupier(this.levelReaderInput.GetBox());
-				break;
-			}
-			case CHARACTER_CELL_FLOOR: {
-				cell = new Cell(CellType.FLOOR, this.levelReaderInput.GetFloor());
-				break;
-			}
+			case CHARACTER_CELL_BOX:
+			case CHARACTER_CELL_FLOOR:
 			case CHARACTER_CELL_PLAYER: {
 				cell = new Cell(CellType.FLOOR, this.levelReaderInput.GetFloor());
-				cell.SetOccupier(this.levelReaderInput.GetPlayer());
 				break;
 			}
 			case CHARACTER_CELL_TARGET: {
@@ -111,22 +112,5 @@ public class LevelReader {
 			}
 		}
 		return cell;
-	}
-
-	private Vector2 GetPlayerPosition(Grid<Cell> grid) {
-		Vector2 playerPosition = new Vector2();
-
-		List<Node<Cell>> nodes = grid.GetNodes();
-		for(int i = 0; i < nodes.Count; i++) {
-			GameObject occupier = nodes[i].GetValue().GetOccupier();
-			if(occupier != null) {
-				if(occupier.CompareTag("Player")) {
-					playerPosition = nodes[i].GetPosition();
-					break;
-				}
-			}
-		}
-
-		return playerPosition;
 	}
 }

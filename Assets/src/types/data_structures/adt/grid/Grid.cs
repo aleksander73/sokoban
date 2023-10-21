@@ -29,12 +29,4 @@ public class Grid<T> {
 		this.nodes.Add(node);
 		return node;
 	}
-
-	public void Translate(Vector2 dv) {
-		for(int i = 0; i < this.nodes.Count; i++) {
-			Node<T> node = this.nodes[i];
-			Vector2 newPosition = node.GetPosition() + dv;
-			node.SetPosition(newPosition);
-		}
-	}
 }
