@@ -34,7 +34,7 @@ public class Player : MonoBehaviour {
 
 		// --------------------------------------------------
 
-		Node<Cell> nodeBelow = this.GetNodeBelow();
+		Node<Cell> nodeBelow = this.grid.FindNodeByPosition(this.transform.position);
 		Node<Cell> targetNode = this.GetNodeInDirection(nodeBelow, direction);
 		if(targetNode == null) {
 			return;
@@ -57,11 +57,6 @@ public class Player : MonoBehaviour {
 				}
 			}
 		}
-	}
-
-	private Node<Cell> GetNodeBelow() {
-		Vector2 playerPosition = this.transform.position;
-		return this.grid.FindNodeByPosition(playerPosition);
 	}
 
 	private Node<Cell> GetNodeInDirection(Node<Cell> origin, Direction direction) {
