@@ -54,6 +54,7 @@ public class Player : MonoBehaviour {
 				if(this.NodeIsEmpty(nextTarget)) {
 					GameObject box = this.GetBoxAtPosition(targetNode.GetPosition());
 					this.Move(box, nextTarget.GetPosition());
+					box.GetComponent<Box>().OnPositionChanged();
 				}
 			}
 		}
