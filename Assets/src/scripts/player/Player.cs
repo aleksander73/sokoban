@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-	private Grid<Cell> grid;
+	private LevelManager levelManager;
 	private GameObject[] boxes;
 
 	private void Start() {
@@ -10,7 +10,7 @@ public class Player : MonoBehaviour {
 		camera.transform.SetParent(this.transform);
 
 		GameObject levelManager = GameObject.Find("level_manager");
-		this.grid = levelManager.GetComponent<LevelManager>().GetGrid();
+		this.levelManager = levelManager.GetComponent<LevelManager>();
 
 		this.boxes = GameObject.FindGameObjectsWithTag("Box");
 	}
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour {
 
 		// --------------------------------------------------
 
-		Node<Cell> nodeBelow = this.grid.FindNodeByPosition(this.transform.position);
+		Node<Cell> nodeBelow = this.levelManager.GetGrid().FindNodeByPosition(this.transform.position);
 		Node<Cell> targetNode = this.GetNodeInDirection(nodeBelow, direction);
 		if(targetNode == null) {
 			return;
@@ -54,7 +54,9 @@ public class Player : MonoBehaviour {
 				if(this.NodeIsEmpty(nextTarget)) {
 					GameObject box = this.GetBoxAtPosition(targetNode.GetPosition());
 					this.Move(box, nextTarget.GetPosition());
+
 					box.GetComponent<Box>().OnPositionChanged();
+					this.levelManager.CheckForLevelComplete();
 				}
 			}
 		}
