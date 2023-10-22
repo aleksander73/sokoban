@@ -16,6 +16,10 @@ public class Player : MonoBehaviour {
 	}
 
 	private void Update() {
+		this.HandleMovement();
+	}
+
+	private void HandleMovement() {
 		Direction direction = Direction.NONE;
 		if(Input.GetKeyDown(KeyCode.UpArrow)) {
 			direction = Direction.UP;
@@ -35,30 +39,36 @@ public class Player : MonoBehaviour {
 		// --------------------------------------------------
 
 		Node<Cell> nodeBelow = this.levelManager.GetGrid().FindNodeByPosition(this.transform.position);
-		Node<Cell> targetNode = this.GetNodeInDirection(nodeBelow, direction);
-		if(targetNode == null) {
+		Node<Cell> destNode = this.GetNodeInDirection(nodeBelow, direction);
+		if(destNode == null) {
+			// No place to move the player to
 			return;
 		}
 
 		// --------------------------------------------------
 
-		if(this.NodeIsEmpty(targetNode)) {
-			this.Move(this.gameObject, targetNode.GetPosition());
+		if(this.NodeIsEmpty(destNode)) {
+			this.Move(this.gameObject, destNode.GetPosition());
 		} else {
-			if(targetNode.GetValue().GetCellType() != CellType.WALL) {
-				Node<Cell> nextTargetNode = this.GetNodeInDirection(targetNode, direction);
-				if(nextTargetNode == null) {
-					return;
-				}
+			if(destNode.GetValue().GetCellType() == CellType.WALL) {
+				// Wall ahead of the player
+				return;
+			}
 
-				if(this.NodeIsEmpty(nextTargetNode)) {
-					GameObject box = this.GetBoxAtPosition(targetNode.GetPosition());
-					this.Move(box, nextTargetNode.GetPosition());
-					this.Move(this.gameObject, targetNode.GetPosition());
+			// Box ahead of the player
+			Node<Cell> nextDestNode = this.GetNodeInDirection(destNode, direction);
+			if(nextDestNode == null || !this.NodeIsEmpty(nextDestNode)) {
+				// No place to move the box to
+				return;
+			}
 
-					box.GetComponent<Box>().OnPositionChanged();
-					this.levelManager.CheckForLevelComplete();
-				}
+			GameObject box = this.GetBoxAtPosition(destNode.GetPosition());
+			this.Move(box, nextDestNode.GetPosition());
+			box.GetComponent<Box>().OnPositionChanged();
+			this.Move(this.gameObject, destNode.GetPosition());
+			if(nextDestNode.GetValue().GetCellType() == CellType.TARGET) {
+				// If the box was moved onto a target cell, check for level complete
+				this.levelManager.CheckForLevelComplete();
 			}
 		}
 	}
