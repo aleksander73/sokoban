@@ -46,14 +46,15 @@ public class Player : MonoBehaviour {
 			this.Move(this.gameObject, targetNode.GetPosition());
 		} else {
 			if(targetNode.GetValue().GetCellType() != CellType.WALL) {
-				Node<Cell> nextTarget = this.GetNodeInDirection(targetNode, direction);
-				if(nextTarget == null) {
+				Node<Cell> nextTargetNode = this.GetNodeInDirection(targetNode, direction);
+				if(nextTargetNode == null) {
 					return;
 				}
 
-				if(this.NodeIsEmpty(nextTarget)) {
+				if(this.NodeIsEmpty(nextTargetNode)) {
 					GameObject box = this.GetBoxAtPosition(targetNode.GetPosition());
-					this.Move(box, nextTarget.GetPosition());
+					this.Move(box, nextTargetNode.GetPosition());
+					this.Move(this.gameObject, targetNode.GetPosition());
 
 					box.GetComponent<Box>().OnPositionChanged();
 					this.levelManager.CheckForLevelComplete();
