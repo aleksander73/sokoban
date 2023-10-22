@@ -17,16 +17,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2395215214651013343, guid: 7c5b0d1c06ee3374d93e0829582bdfaf, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 9504c5e466a93294fa4b061a8f1a15af, type: 3}
+      propertyPath: m_Color.b
+      value: 0.2735849
+      objectReference: {fileID: 0}
+    - target: {fileID: 2395215214651013343, guid: 7c5b0d1c06ee3374d93e0829582bdfaf, type: 3}
+      propertyPath: m_Color.g
+      value: 0.2735849
+      objectReference: {fileID: 0}
+    - target: {fileID: 2395215214651013343, guid: 7c5b0d1c06ee3374d93e0829582bdfaf, type: 3}
+      propertyPath: m_Color.r
+      value: 0.2735849
+      objectReference: {fileID: 0}
     - target: {fileID: 2395215214651013343, guid: 7c5b0d1c06ee3374d93e0829582bdfaf, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4041176109172411640, guid: 7c5b0d1c06ee3374d93e0829582bdfaf, type: 3}
       propertyPath: m_Name
-      value: Floor
+      value: floor
       objectReference: {fileID: 0}
     - target: {fileID: 6489703391166174969, guid: 7c5b0d1c06ee3374d93e0829582bdfaf, type: 3}
       propertyPath: m_LocalPosition.x

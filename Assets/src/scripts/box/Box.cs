@@ -4,6 +4,7 @@ public class Box : MonoBehaviour {
 	private Grid<Cell> grid;
 	private SpriteRenderer sr;
 	private Color defaultColor;
+	private Color onTargetColor;
 
 	private void Start() {
 		GameObject levelManager = GameObject.Find("level_manager");
@@ -11,10 +12,11 @@ public class Box : MonoBehaviour {
 
 		this.sr = this.GetComponent<SpriteRenderer>();
 		this.defaultColor = this.sr.color;
+		this.onTargetColor = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 	}
 
 	public void OnPositionChanged() {
 		Node<Cell> nodeBelow = this.grid.FindNodeByPosition(this.transform.position);
-		this.sr.color = nodeBelow.GetValue().GetCellType() == CellType.TARGET ? new Color(1.0f, 1.0f, 1.0f, 0.85f) : this.defaultColor;
+		this.sr.color = nodeBelow.GetValue().GetCellType() == CellType.TARGET ? this.onTargetColor : this.defaultColor;
 	}
 }
