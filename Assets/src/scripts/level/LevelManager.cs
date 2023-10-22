@@ -66,13 +66,13 @@ public class LevelManager : MonoBehaviour {
 	public void CheckForLevelComplete() {
 		bool levelComplete = this.IsLevelComplete();
 		if(levelComplete) {
-			// Disable player script
-			this.player.GetComponent<Player>().enabled = false;
 			this.OnLevelCompleted();
 		}
 	}
 
 	private void OnLevelCompleted() {
+		// Disable player script
+		this.player.GetComponent<Player>().enabled = false;
 		this.ClearLevel();
 		this.currentLevelIndex++;
 	}
