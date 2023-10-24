@@ -33,10 +33,9 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	private void LoadLevel(int levelIndex) {
-		LevelReaderInput levelReaderInput = new LevelReaderInput(this.floorPrefab, this.targetPrefab, this.wallPrefab);
-		LevelReader levelReader = new LevelReader(levelReaderInput);
-		TextAsset levelToLoad = this.levels[levelIndex];
-		Level level = levelReader.LoadLevel(levelToLoad.text);
+		LevelReader levelReader = new LevelReader(this.floorPrefab, this.targetPrefab, this.wallPrefab);
+		string levelText = this.levels[levelIndex].text;
+		Level level = levelReader.LoadLevel(levelText);
 		this.grid = level.GetGrid();
 
 		// --------------------------------------------------

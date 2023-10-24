@@ -10,10 +10,14 @@ public class LevelReader {
 	private const char CHARACTER_CELL_TARGET = 'T';
 	private const char CHARACTER_CELL_WALL = 'W';
 
-	private readonly LevelReaderInput levelReaderInput;
+	private readonly GameObject floorPrefab;
+	private readonly GameObject targetPrefab;
+	private readonly GameObject wallPrefab;
 
-	public LevelReader(LevelReaderInput levelReaderInput) {
-		this.levelReaderInput = levelReaderInput;
+	public LevelReader(GameObject floorPrefab, GameObject targetPrefab, GameObject wallPrefab) {
+		this.floorPrefab = floorPrefab;
+		this.targetPrefab = targetPrefab;
+		this.wallPrefab = wallPrefab;
 	}
 
 	public Level LoadLevel(string levelText) {
@@ -96,15 +100,15 @@ public class LevelReader {
 			case CHARACTER_CELL_BOX:
 			case CHARACTER_CELL_FLOOR:
 			case CHARACTER_CELL_PLAYER: {
-				cell = new Cell(CellType.FLOOR, this.levelReaderInput.GetFloor());
+				cell = new Cell(CellType.FLOOR, this.floorPrefab);
 				break;
 			}
 			case CHARACTER_CELL_TARGET: {
-				cell = new Cell(CellType.TARGET, this.levelReaderInput.GetTarget());
+				cell = new Cell(CellType.TARGET, this.targetPrefab);
 				break;
 			}
 			case CHARACTER_CELL_WALL: {
-				cell = new Cell(CellType.WALL, this.levelReaderInput.GetWall());
+				cell = new Cell(CellType.WALL, this.wallPrefab);
 				break;
 			}
 			default: {
