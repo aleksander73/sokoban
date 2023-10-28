@@ -101,7 +101,7 @@ public class LevelManager : MonoBehaviour {
 		this.currentLevelIndex++;
 	}
 
-	public void ClearLevel() {
+	private void ClearLevel() {
 		GameObject level = GameObject.Find("level");
 		if(level == null) {
 			return;
