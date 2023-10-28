@@ -15,11 +15,16 @@ public class LevelManager : MonoBehaviour {
 
 	// --------------------------------------------------
 
+	private LevelReader levelReader;
 	private int currentLevelIndex = 0;
 
 	private Grid<Cell> grid;
 	private GameObject player;
 	private readonly List<GameObject> boxes = new List<GameObject>();
+
+	private void Start() {
+		this.levelReader = new LevelReader(this.floorPrefab, this.targetPrefab, this.wallPrefab);
+	}
 
 	private void Update() {
 		GameObject level = GameObject.Find("level");
@@ -33,32 +38,40 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	private void LoadLevel(int levelIndex) {
-		LevelReader levelReader = new LevelReader(this.floorPrefab, this.targetPrefab, this.wallPrefab);
 		string levelText = this.levels[levelIndex].text;
-		Level level = levelReader.LoadLevel(levelText);
+		Level level = this.levelReader.LoadLevel(levelText);
 		this.grid = level.GetGrid();
 
-		// --------------------------------------------------
+		this.InstantiateLevel(level);
+	}
 
+	private void InstantiateLevel(Level level) {
 		GameObject levelRoot = new GameObject("level");
 
-		// Instantiate grid
-		Grid<Cell> grid = level.GetGrid();
-		this.InstantiateGrid(levelRoot, grid);
+		// Grid
+		List<Node<Cell>> nodes = level.GetGrid().GetNodes();
+		for(int i = 0; i < nodes.Count; i++) {
+			Node<Cell> node = nodes[i];
+			GameObject sprite = node.GetValue().GetSprite();
 
-		// Instantiate player
+			Vector3 position = new Vector3(node.GetPosition().x, node.GetPosition().y, CELL_LEVEL);
+			GameObject spriteInstance = GameObject.Instantiate(sprite, position, Quaternion.identity, levelRoot.transform);
+			spriteInstance.name = Utility.SimplifyInstanceName(spriteInstance.name);
+		}
+
+		// Player
 		Vector3 playerPosition = new Vector3(level.GetPlayer().x, level.GetPlayer().y, PLAYER_LEVEL);
-		GameObject instance = GameObject.Instantiate(this.playerPrefab, playerPosition, Quaternion.identity, levelRoot.transform);
-		instance.name = Utility.SimplifyInstanceName(instance.name);
-		this.player = instance;
+		GameObject playerInstance = GameObject.Instantiate(this.playerPrefab, playerPosition, Quaternion.identity, levelRoot.transform);
+		playerInstance.name = Utility.SimplifyInstanceName(playerInstance.name);
+		this.player = playerInstance;
 
-		// Instantiate boxes
+		// Boxes
 		List<Vector2> boxes = level.GetBoxes();
 		boxes.ForEach(box => {
 			Vector3 boxPosition = new Vector3(box.x, box.y, PLAYER_LEVEL);
-			instance = GameObject.Instantiate(this.boxPrefab, boxPosition, Quaternion.identity, levelRoot.transform);
-			instance.name = Utility.SimplifyInstanceName(instance.name);
-			this.boxes.Add(instance);
+			GameObject boxInstance = GameObject.Instantiate(this.boxPrefab, boxPosition, Quaternion.identity, levelRoot.transform);
+			boxInstance.name = Utility.SimplifyInstanceName(boxInstance.name);
+			this.boxes.Add(boxInstance);
 		});
 	}
 
@@ -67,6 +80,18 @@ public class LevelManager : MonoBehaviour {
 		if(levelComplete) {
 			this.OnLevelCompleted();
 		}
+	}
+
+	private bool IsLevelComplete() {
+		bool isCompleted = true;
+		for(int i = 0; i < this.boxes.Count; i++) {
+			Node<Cell> nodeBelow = this.grid.FindNodeByPosition(this.boxes[i].transform.position);
+			if(nodeBelow.GetValue().GetCellType() != CellType.TARGET) {
+				isCompleted = false;
+				break;
+			}
+		};
+		return isCompleted;
 	}
 
 	private void OnLevelCompleted() {
@@ -92,30 +117,6 @@ public class LevelManager : MonoBehaviour {
 		this.boxes.Clear();
 
 		GameObject.Destroy(level);
-	}
-
-	private void InstantiateGrid(GameObject levelRoot, Grid<Cell> grid) {
-		List<Node<Cell>> nodes = grid.GetNodes();
-		for(int i = 0; i < nodes.Count; i++) {
-			Node<Cell> node = nodes[i];
-			GameObject sprite = node.GetValue().GetSprite();
-
-			Vector3 position = new Vector3(node.GetPosition().x, node.GetPosition().y, CELL_LEVEL);
-			GameObject instance = GameObject.Instantiate(sprite, position, Quaternion.identity, levelRoot.transform);
-			instance.name = Utility.SimplifyInstanceName(instance.name);
-		}
-	}
-
-	private bool IsLevelComplete() {
-		bool isCompleted = true;
-		for(int i = 0; i < this.boxes.Count; i++) {
-			Node<Cell> nodeBelow = this.grid.FindNodeByPosition(this.boxes[i].transform.position);
-			if(nodeBelow.GetValue().GetCellType() != CellType.TARGET) {
-				isCompleted = false;
-				break;
-			}
-		};
-		return isCompleted;
 	}
 
 	public Grid<Cell> GetGrid() {
