@@ -67,12 +67,12 @@ public class LevelReader {
 
 				Vector2 nodePosition = new Vector2(w, -h);
 
-				Node<Cell> node = grid.AddNode(nodePosition, cell);
-				Node<Cell> nodeLeft = grid.FindNodeByPosition(nodePosition + Vector2.left);
+				GridNode<Cell> node = grid.AddNode(nodePosition, cell);
+				GridNode<Cell> nodeLeft = grid.FindNodeByPosition(nodePosition + Vector2.left);
 				if(nodeLeft != null) {
 					node.Connect(Direction.LEFT, nodeLeft);
 				}
-				Node<Cell> nodeUp = grid.FindNodeByPosition(nodePosition + Vector2.up);
+				GridNode<Cell> nodeUp = grid.FindNodeByPosition(nodePosition + Vector2.up);
 				if(nodeUp != null) {
 					node.Connect(Direction.UP, nodeUp);
 				}

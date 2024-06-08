@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class Node<T> {
+public class GridNode<T> {
 	private Vector2 position;
 	private T value;
-	private Node<T> up, right, down, left;
+	private GridNode<T> up, right, down, left;
 
-	public Node(Vector2 position, T value) {
+	public GridNode(Vector2 position, T value) {
 		this.position = position;
 		this.value = value;
 	}
 
-	public void Connect(Direction direction, Node<T> node) {
+	public void Connect(Direction direction, GridNode<T> node) {
 		switch(direction) {
 			case Direction.UP: {
 				this.SetUp(node);
@@ -53,35 +53,35 @@ public class Node<T> {
 		this.value = value;
 	}
 
-	public Node<T> GetUp() {
+	public GridNode<T> GetUp() {
 		return this.up;
 	}
 
-	public void SetUp(Node<T> up) {
+	public void SetUp(GridNode<T> up) {
 		this.up = up;
 	}
 
-	public Node<T> GetRight() {
+	public GridNode<T> GetRight() {
 		return this.right;
 	}
 
-	public void SetRight(Node<T> right) {
+	public void SetRight(GridNode<T> right) {
 		this.right = right;
 	}
 
-	public Node<T> GetDown() {
+	public GridNode<T> GetDown() {
 		return this.down;
 	}
 
-	public void SetDown(Node<T> down) {
+	public void SetDown(GridNode<T> down) {
 		this.down = down;
 	}
 
-	public Node<T> GetLeft() {
+	public GridNode<T> GetLeft() {
 		return this.left;
 	}
 
-	public void SetLeft(Node<T> left) {
+	public void SetLeft(GridNode<T> left) {
 		this.left = left;
 	}
 }

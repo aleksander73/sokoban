@@ -49,9 +49,9 @@ public class LevelManager : MonoBehaviour {
 		GameObject levelRoot = new GameObject("level");
 
 		// Grid
-		List<Node<Cell>> nodes = level.GetGrid().GetNodes();
+		List<GridNode<Cell>> nodes = level.GetGrid().GetNodes();
 		for(int i = 0; i < nodes.Count; i++) {
-			Node<Cell> node = nodes[i];
+			GridNode<Cell> node = nodes[i];
 			GameObject sprite = node.GetValue().GetSprite();
 
 			Vector3 position = new Vector3(node.GetPosition().x, node.GetPosition().y, CELL_LEVEL);
@@ -85,7 +85,7 @@ public class LevelManager : MonoBehaviour {
 	private bool IsLevelComplete() {
 		bool isCompleted = true;
 		for(int i = 0; i < this.boxes.Count; i++) {
-			Node<Cell> nodeBelow = this.grid.FindNodeByPosition(this.boxes[i].transform.position);
+			GridNode<Cell> nodeBelow = this.grid.FindNodeByPosition(this.boxes[i].transform.position);
 			if(nodeBelow.GetValue().GetCellType() != CellType.TARGET) {
 				isCompleted = false;
 				break;

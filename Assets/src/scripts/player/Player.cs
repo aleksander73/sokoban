@@ -38,8 +38,8 @@ public class Player : MonoBehaviour {
 
 		// --------------------------------------------------
 
-		Node<Cell> nodeBelow = this.levelManager.GetGrid().FindNodeByPosition(this.transform.position);
-		Node<Cell> destNode = this.GetNodeInDirection(nodeBelow, direction);
+		GridNode<Cell> nodeBelow = this.levelManager.GetGrid().FindNodeByPosition(this.transform.position);
+		GridNode<Cell> destNode = this.GetNodeInDirection(nodeBelow, direction);
 		if(destNode == null) {
 			// No place to move the player to
 			return;
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour {
 			}
 
 			// Box ahead of the player
-			Node<Cell> nextDestNode = this.GetNodeInDirection(destNode, direction);
+			GridNode<Cell> nextDestNode = this.GetNodeInDirection(destNode, direction);
 			if(nextDestNode == null || !this.NodeIsEmpty(nextDestNode)) {
 				// No place to move the box to
 				return;
@@ -73,8 +73,8 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	private Node<Cell> GetNodeInDirection(Node<Cell> origin, Direction direction) {
-		Node<Cell> node = null;
+	private GridNode<Cell> GetNodeInDirection(GridNode<Cell> origin, Direction direction) {
+		GridNode<Cell> node = null;
 
 		if(direction == Direction.UP) {
 			node = origin.GetUp();
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour {
 		return node;
 	}
 
-	private bool NodeIsEmpty(Node<Cell> node) {
+	private bool NodeIsEmpty(GridNode<Cell> node) {
 		return node.GetValue().GetCellType() != CellType.WALL && this.GetBoxAtPosition(node.GetPosition()) == null;
 	}
 

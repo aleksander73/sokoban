@@ -16,7 +16,7 @@ public class Box : MonoBehaviour {
 	}
 
 	public void OnPositionChanged() {
-		Node<Cell> nodeBelow = this.grid.FindNodeByPosition(this.transform.position);
+		GridNode<Cell> nodeBelow = this.grid.FindNodeByPosition(this.transform.position);
 		this.sr.color = nodeBelow.GetValue().GetCellType() == CellType.TARGET ? this.onTargetColor : this.defaultColor;
 	}
 }
