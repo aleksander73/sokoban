@@ -43,6 +43,10 @@ public class LevelManager : MonoBehaviour {
 		this.grid = level.GetGrid();
 
 		this.InstantiateLevel(level);
+
+		// Position the camera at the center of the level
+		Vector2 levelCenter = level.GetBoundingRect().center;
+		GameObject.Find("camera").transform.position = new Vector3(levelCenter.x, levelCenter.y, PLAYER_LEVEL);
 	}
 
 	private void InstantiateLevel(Level level) {

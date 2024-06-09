@@ -5,10 +5,6 @@ public class Player : MonoBehaviour {
 	private GameObject[] boxes;
 
 	private void Start() {
-		GameObject camera = GameObject.Find("camera");
-		camera.transform.position = this.transform.position;
-		camera.transform.SetParent(this.transform);
-
 		GameObject levelManager = GameObject.Find("level_manager");
 		this.levelManager = levelManager.GetComponent<LevelManager>();
 
