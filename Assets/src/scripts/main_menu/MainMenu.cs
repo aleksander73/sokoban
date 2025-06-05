@@ -5,12 +5,23 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
-	public Button startButton;
+	private GameObject gameManager;
+	private GameObject levelsMenu;
+
+	public Button levelSelectButton;
 	public Button quitButton;
 
 	public void Start() {
+		gameManager = GameObject.Find("game_manager");
+		levelsMenu = GameObject.Find("levels");
+		levelsMenu.SetActive(false);
+
+		 ColorBlock colorBlock = levelSelectButton.colors;
+		 colorBlock.highlightedColor = gameManager.GetComponent<GameManager>().positiveColor;
+		 levelSelectButton.colors = colorBlock;
+
 		Dictionary<Button, UnityAction> buttonClickHandlers = new Dictionary<Button, UnityAction> {
-			{ startButton, () => this.OnStart() },
+			{ levelSelectButton, () => this.OnLevelSelect() },
 			{ quitButton, () => this.OnQuit() }
 		};
 
@@ -19,12 +30,15 @@ public class MainMenu : MonoBehaviour {
 			UnityAction callback = entry.Value;
 			button.GetComponent<Button>().onClick.AddListener(callback);
         }
+
+		GameObject.DontDestroyOnLoad(gameManager);
     }
 
 	// --------------------------------------------------
 
-	public void OnStart() {
-		SceneManager.LoadScene(Scenes.LEVEL, LoadSceneMode.Single);
+	public void OnLevelSelect() {
+		this.gameObject.SetActive(false);
+		levelsMenu.SetActive(true);
 	}
 
 	public void OnQuit() {

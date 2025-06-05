@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
-	public List<TextAsset> levels;
-
 	public GameObject boxPrefab;
 	public GameObject floorPrefab;
 	public GameObject playerPrefab;
@@ -15,30 +13,27 @@ public class LevelManager : MonoBehaviour {
 
 	// --------------------------------------------------
 
+	private GameManager gameManager;
 	private LevelReader levelReader;
-	private int currentLevelIndex = 0;
 
 	private Grid<Cell> grid;
 	private GameObject player;
 	private readonly List<GameObject> boxes = new List<GameObject>();
 
 	private void Start() {
+		this.gameManager = GameObject.FindFirstObjectByType<GameManager>();
 		this.levelReader = new LevelReader(this.floorPrefab, this.targetPrefab, this.wallPrefab);
 	}
 
 	private void Update() {
 		GameObject level = GameObject.Find("level");
 		if(level == null) {
-			if(this.currentLevelIndex < this.levels.Count) {
-				this.LoadLevel(this.currentLevelIndex);
-			} else {
-				Debug.Log("Congratulations! You beat Sokoban!");
-			}
+			this.LoadLevel(gameManager.LevelToLoad);
 		}
 	}
 
 	private void LoadLevel(int levelIndex) {
-		string levelText = this.levels[levelIndex].text;
+		string levelText = gameManager.levels[levelIndex].text;
 		Level level = this.levelReader.LoadLevel(levelText);
 		this.grid = level.GetGrid();
 
@@ -46,7 +41,8 @@ public class LevelManager : MonoBehaviour {
 
 		// Position the camera at the center of the level
 		Vector2 levelCenter = level.GetBoundingRect().center;
-		GameObject.Find("camera").transform.position = new Vector3(levelCenter.x, levelCenter.y, PLAYER_LEVEL);
+		GameObject camera = GameObject.Find("camera");
+		camera.transform.position = new Vector3(levelCenter.x, levelCenter.y, PLAYER_LEVEL);
 	}
 
 	private void InstantiateLevel(Level level) {
@@ -101,8 +97,8 @@ public class LevelManager : MonoBehaviour {
 	private void OnLevelCompleted() {
 		// Disable player script
 		this.player.GetComponent<Player>().enabled = false;
-		this.ClearLevel();
-		this.currentLevelIndex++;
+		
+		// TODO: Show options in the UI, i.e. "Load next level", "Restart level", "Return to main menu"
 	}
 
 	private void ClearLevel() {

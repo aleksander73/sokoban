@@ -215,7 +215,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
---- !u!1 &777899864
+--- !u!1 &2106343470
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,40 +223,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 777899865}
-  m_Layer: 0
-  m_Name: managers
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &777899865
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777899864}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1067012734}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1067012733
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1067012734}
-  - component: {fileID: 1067012735}
+  - component: {fileID: 2106343471}
+  - component: {fileID: 2106343472}
   m_Layer: 0
   m_Name: level_manager
   m_TagString: Untagged
@@ -264,39 +232,33 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1067012734
+--- !u!4 &2106343471
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067012733}
+  m_GameObject: {fileID: 2106343470}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 777899865}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1067012735
+--- !u!114 &2106343472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067012733}
+  m_GameObject: {fileID: 2106343470}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6a2f6805d4fca140a6595d70ab10961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levels:
-  - {fileID: 4900000, guid: 762df86a88710b44e9037c41af2a41aa, type: 3}
-  - {fileID: 4900000, guid: e7079349ecaedfd4ebf30480ddaddcdf, type: 3}
-  - {fileID: 4900000, guid: de4701b5d1540e444bfff66c88ad30c3, type: 3}
-  - {fileID: 4900000, guid: 802ff99c85bd0074ea48168e6330729f, type: 3}
-  - {fileID: 4900000, guid: 000b5feb0d97f03479d8013b7849ef07, type: 3}
   boxPrefab: {fileID: 8243032075249219486, guid: ab581f338f7e7f64ca223d6122316b01, type: 3}
   floorPrefab: {fileID: 1677313889139744271, guid: a03f0527fc7e8974ab629cd064d58ffa, type: 3}
   playerPrefab: {fileID: 1485842980532790309, guid: b17d728a1a1a60d4b9a00afc6267c681, type: 3}
@@ -307,4 +269,4 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
-  - {fileID: 777899865}
+  - {fileID: 2106343471}
