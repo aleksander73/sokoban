@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
 		// Update or remove transitions
 		List<Transition> transitionsToRemove = new List<Transition>();
 		this.transitions.ForEach(transition => {
-			if(transition.InProgres()) {
+			if(transition.GetInProgres()) {
 				transition.Update();
 			} else {
 				transitionsToRemove.Add(transition);
@@ -192,7 +192,7 @@ public class Player : MonoBehaviour {
 			this.gameObject.transform.position = newPosition;
 		}
 
-		public bool InProgres() {
+		public bool GetInProgres() {
 			return this.inProgress;
 		}
 	}
