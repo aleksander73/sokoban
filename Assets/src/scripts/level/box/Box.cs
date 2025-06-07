@@ -18,10 +18,16 @@ public class Box : MonoBehaviour {
 		this.boxMovingSfx = this.GetComponent<AudioSource>();
 	}
 
-	public void OnPositionChanged() {
+	public void OnMovingStarted() {
 		this.boxMovingSfx.Play();
+	}
 
+	public void OnMovingEnded() {
 		GridNode<Cell> nodeBelow = this.grid.FindNodeByPosition(this.transform.position);
 		this.sr.color = nodeBelow.GetValue().GetCellType() == CellType.TARGET ? this.onTargetColor : this.defaultColor;
+	}
+
+	public float GetBoxMovingLength() {
+		return this.boxMovingSfx.clip.length;
 	}
 }

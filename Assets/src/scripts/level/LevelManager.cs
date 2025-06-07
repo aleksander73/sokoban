@@ -8,8 +8,8 @@ public class LevelManager : MonoBehaviour {
 	public GameObject targetPrefab;
 	public GameObject wallPrefab;
 
-	private static readonly float CELL_LEVEL = 0.0f;
-	private static readonly float PLAYER_LEVEL = -1.0f;
+	private readonly float CELL_LEVEL = 0.0f;
+	private readonly float PLAYER_LEVEL = -1.0f;
 
 	// --------------------------------------------------
 
@@ -100,9 +100,6 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	private void OnLevelCompleted() {
-		// Disable player script
-		this.player.GetComponent<Player>().SetMovementDisabled(true);
-
 		levelUI.ToggleLevelCompletedWindow();
 	}
 
@@ -124,8 +121,12 @@ public class LevelManager : MonoBehaviour {
 		GameObject.Destroy(level);
 	}
 
-	public void SetPlayerActive(bool active) {
-		this.player.GetComponent<Player>().SetMovementDisabled(!active);
+	public float GetPlayerLevel() {
+		return this.PLAYER_LEVEL;
+	}
+
+	public void SetWindowEnabled(bool windowEnabled) {
+		this.player.GetComponent<Player>().SetWIndowEnabled(windowEnabled);
 	}
 
 	public Grid<Cell> GetGrid() {

@@ -48,19 +48,17 @@ public class LevelUI : MonoBehaviour {
 
 	// ==================================================
 
-	private void PreWindowToggle(GameObject window) {
-		bool windowEnabled = window.activeSelf;
-		// If the window is active it means the player should be active after closing it
-		this.levelManager.SetPlayerActive(windowEnabled);
+	private void OnWindowToggle(GameObject window) {
+		this.levelManager.SetWindowEnabled(window.activeSelf);
 	}
 
 	public void ToggleOptionsWindow() {
-		this.PreWindowToggle(optionsWindow);
 		this.optionsWindow.SetActive(!optionsWindow.activeSelf);
+		this.OnWindowToggle(optionsWindow);
 	}
 
 	public void ToggleLevelCompletedWindow() {
-		this.PreWindowToggle(levelCompletedWindow);
 		this.levelCompletedWindow.SetActive(!levelCompletedWindow.activeSelf);
+		this.OnWindowToggle(levelCompletedWindow);
 	}
 }
