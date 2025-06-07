@@ -132,9 +132,9 @@ public class Player : MonoBehaviour {
 	}
 
 	private Vector3 ToOccupyPosition(GridNode<Cell> node) {
-		Vector3 upperPosition = node.GetPosition();
-		upperPosition.z = this.levelManager.GetPlayerLevel();
-		return upperPosition;
+		Vector3 occupyPosition = node.GetPosition();
+		occupyPosition.z = this.levelManager.GetPlayerLevel();
+		return occupyPosition;
 	}
 
 	private void Move(GameObject go, Vector3 target, float duration, Action onMoveFinished) {
