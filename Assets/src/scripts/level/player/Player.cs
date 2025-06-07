@@ -1,18 +1,20 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
 	private LevelManager levelManager;
-	private GameObject[] boxes;
+	private bool movementDisabled;
 
 	private void Start() {
 		GameObject levelManager = GameObject.Find("level_manager");
 		this.levelManager = levelManager.GetComponent<LevelManager>();
-
-		this.boxes = GameObject.FindGameObjectsWithTag("Box");
+		this.movementDisabled = false;
 	}
 
 	private void Update() {
-		this.HandleMovement();
+		if(!this.movementDisabled) {
+			this.HandleMovement();
+		}
 	}
 
 	private void HandleMovement() {
@@ -90,8 +92,10 @@ public class Player : MonoBehaviour {
 	}
 
 	private GameObject GetBoxAtPosition(Vector2 position) {
+		List<GameObject> boxes = levelManager.GetBoxes();
+
 		GameObject foundBox = null;
-		foreach(var box in this.boxes) {
+		foreach(var box in boxes) {
 			Vector2 boxPosition = box.transform.position;
 			if(boxPosition == position) {
 				foundBox = box;
@@ -104,5 +108,9 @@ public class Player : MonoBehaviour {
 	private void Move(GameObject go, Vector2 target) {
 		float z = go.transform.position.z;
 		go.transform.position = new Vector3(target.x, target.y, z);
+	}
+
+	public void SetMovementDisabled(bool movementDisabled) {
+		this.movementDisabled = movementDisabled;
 	}
 }

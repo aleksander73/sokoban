@@ -15,14 +15,16 @@ public class LevelManager : MonoBehaviour {
 
 	private GameManager gameManager;
 	private LevelReader levelReader;
+	private LevelUI levelUI;
 
 	private Grid<Cell> grid;
 	private GameObject player;
 	private readonly List<GameObject> boxes = new List<GameObject>();
 
 	private void Start() {
-		this.gameManager = GameObject.FindFirstObjectByType<GameManager>();
+		this.gameManager = GameObject.Find("game_manager").GetComponent<GameManager>();
 		this.levelReader = new LevelReader(this.floorPrefab, this.targetPrefab, this.wallPrefab);
+		this.levelUI = GameObject.Find("ui").GetComponent<LevelUI>();
 	}
 
 	private void Update() {
@@ -32,7 +34,10 @@ public class LevelManager : MonoBehaviour {
 		}
 	}
 
-	private void LoadLevel(int levelIndex) {
+	public void LoadLevel(int levelIndex) {
+		// Clear the level if one already exists
+		this.ClearLevel();
+
 		string levelText = gameManager.levels[levelIndex].text;
 		Level level = this.levelReader.LoadLevel(levelText);
 		this.grid = level.GetGrid();
@@ -96,9 +101,9 @@ public class LevelManager : MonoBehaviour {
 
 	private void OnLevelCompleted() {
 		// Disable player script
-		this.player.GetComponent<Player>().enabled = false;
-		
-		// TODO: Show options in the UI, i.e. "Load next level", "Restart level", "Return to main menu"
+		this.player.GetComponent<Player>().SetMovementDisabled(true);
+
+		levelUI.ToggleLevelCompletedWindow();
 	}
 
 	private void ClearLevel() {
@@ -119,7 +124,15 @@ public class LevelManager : MonoBehaviour {
 		GameObject.Destroy(level);
 	}
 
+	public void SetPlayerActive(bool active) {
+		this.player.GetComponent<Player>().SetMovementDisabled(!active);
+	}
+
 	public Grid<Cell> GetGrid() {
 		return this.grid;
+	}
+
+	public List<GameObject> GetBoxes() {
+		return this.boxes;
 	}
 }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,19 +9,19 @@ public class LevelsMenu : MonoBehaviour {
 	private GameObject mainMenu;
 
 	public GameObject buttonPrefab;
+	public GameObject backButtonPrefab;
 	public List<Button> levelButtons;
 
     private void Start() {
-		gameManager = GameObject.FindFirstObjectByType<GameManager>();
-        mainMenu = GameObject.Find("main");
+		this.gameManager = GameObject.Find("game_manager").GetComponent<GameManager>();
+        this.mainMenu = GameObject.Find("main_menu");
 
 		float BUTTON_HEIGHT = buttonPrefab.GetComponent<RectTransform>().rect.height;
-		const float BUTTON_OFFSET = 10f;
 		int nLevels = gameManager.levels.Count;
-		Vector2 origin = new Vector2(0, nLevels * BUTTON_HEIGHT + (nLevels - 1) * BUTTON_OFFSET) / 2;
+		Vector2 origin = new Vector2(0, ((nLevels - 1) * (BUTTON_HEIGHT + gameManager.VERETICAL_BUTTON_OFFSET)) / 2);
 		for(int i = 0; i < nLevels; i++) {
 			GameObject levelButtonGO = GameObject.Instantiate<GameObject>(buttonPrefab, this.gameObject.transform);
-			levelButtonGO.gameObject.transform.localPosition = origin - new Vector2(0, i * (BUTTON_HEIGHT + BUTTON_OFFSET));
+			levelButtonGO.transform.localPosition = origin - new Vector2(0, i * (BUTTON_HEIGHT + gameManager.VERETICAL_BUTTON_OFFSET));
 
 			TextMeshProUGUI textMesh = levelButtonGO.GetComponentInChildren<TextMeshProUGUI>();
 			textMesh.text = $"LEVEL {i + 1}";
@@ -45,16 +44,16 @@ public class LevelsMenu : MonoBehaviour {
 
 		// Position "BACK" button in the lower left corner of the screen
 
-		GameObject menu = GameObject.Find("menu");
-		Rect menuRect = menu.GetComponent<RectTransform>().rect;
+		GameObject ui = GameObject.Find("ui");
+		Rect uiRect = ui.GetComponent<RectTransform>().rect;
 
-		GameObject backButtonGO = GameObject.Find("back");
+		GameObject backButtonGO = GameObject.Instantiate<GameObject>(backButtonPrefab, this.gameObject.transform);
 		RectTransform backButtonRectTransform = backButtonGO.GetComponent<RectTransform>();
 
-		const float OFFSET = 30f;
+		const float OFFSET = 25f;
 		backButtonRectTransform.localPosition = new Vector2(
-			(-menuRect.width + backButtonRectTransform.rect.width) / 2  + OFFSET,
-			(-menuRect.height + backButtonRectTransform.rect.height) / 2  + OFFSET
+			(-uiRect.width + backButtonRectTransform.rect.width) / 2  + OFFSET,
+			(-uiRect.height + backButtonRectTransform.rect.height) / 2  + OFFSET
 		);
 
 		Button backButton = backButtonGO.GetComponent<Button>();

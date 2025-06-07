@@ -1,23 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
-	private GameObject gameManager;
+	private GameManager gameManager;
 	private GameObject levelsMenu;
 
 	public Button levelSelectButton;
 	public Button quitButton;
 
-	public void Start() {
-		gameManager = GameObject.Find("game_manager");
-		levelsMenu = GameObject.Find("levels");
-		levelsMenu.SetActive(false);
+	private void Start() {
+		this.gameManager = GameObject.Find("game_manager").GetComponent<GameManager>();
+		this.levelsMenu = GameObject.Find("levels_menu");
+		this.levelsMenu.SetActive(false);
 
 		 ColorBlock colorBlock = levelSelectButton.colors;
-		 colorBlock.highlightedColor = gameManager.GetComponent<GameManager>().positiveColor;
+		 colorBlock.highlightedColor = gameManager.positiveColor;
 		 levelSelectButton.colors = colorBlock;
 
 		Dictionary<Button, UnityAction> buttonClickHandlers = new Dictionary<Button, UnityAction> {
