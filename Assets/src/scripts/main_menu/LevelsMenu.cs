@@ -44,16 +44,13 @@ public class LevelsMenu : MonoBehaviour {
 
 		// Position "BACK" button in the lower left corner of the screen
 
-		GameObject ui = GameObject.Find("ui");
-		Rect uiRect = ui.GetComponent<RectTransform>().rect;
-
 		GameObject backButtonGO = GameObject.Instantiate<GameObject>(backButtonPrefab, this.gameObject.transform);
 		RectTransform backButtonRectTransform = backButtonGO.GetComponent<RectTransform>();
 
 		const float OFFSET = 25f;
 		backButtonRectTransform.localPosition = new Vector2(
-			(-uiRect.width + backButtonRectTransform.rect.width) / 2  + OFFSET,
-			(-uiRect.height + backButtonRectTransform.rect.height) / 2  + OFFSET
+			(-Screen.width + backButtonRectTransform.rect.width) / 2  + OFFSET,
+			(-Screen.height + backButtonRectTransform.rect.height) / 2  + OFFSET
 		);
 
 		Button backButton = backButtonGO.GetComponent<Button>();

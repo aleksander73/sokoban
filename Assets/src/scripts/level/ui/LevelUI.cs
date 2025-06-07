@@ -12,16 +12,13 @@ public class LevelUI : MonoBehaviour {
 		this.levelManager = GameObject.Find("level_manager").GetComponent<LevelManager>();
 
 		// Position "menu_toggle" button in the upper left corner of the screen
-		GameObject ui = GameObject.Find("ui");
-		Rect uiRect = ui.GetComponent<RectTransform>().rect;
-
 		GameObject menuToggleGO = GameObject.Instantiate<GameObject>(this.menuToggle, this.gameObject.transform);
 		RectTransform menuToggleRectTransform = menuToggleGO.GetComponent<RectTransform>();
 
 		const float OFFSET = 20f;
 		menuToggleRectTransform.localPosition = new Vector2(
-			(-uiRect.width + menuToggleRectTransform.rect.width) / 2  + OFFSET,
-			(uiRect.height - menuToggleRectTransform.rect.height) / 2  - OFFSET
+			(-Screen.width + menuToggleRectTransform.rect.width) / 2  + OFFSET,
+			(Screen.height - menuToggleRectTransform.rect.height) / 2  - OFFSET
 		);
 
 		Button menuToggleButton = menuToggleGO.GetComponent<Button>();
