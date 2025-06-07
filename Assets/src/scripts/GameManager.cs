@@ -10,5 +10,5 @@ public class GameManager : MonoBehaviour {
 
 	// UI related fields
 	public Color positiveColor;
-	public float VERETICAL_BUTTON_OFFSET = 10f;
+	public float VERTICAL_BUTTON_OFFSET = 10f;
 }

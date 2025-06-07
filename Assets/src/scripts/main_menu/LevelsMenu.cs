@@ -18,10 +18,10 @@ public class LevelsMenu : MonoBehaviour {
 
 		float BUTTON_HEIGHT = buttonPrefab.GetComponent<RectTransform>().rect.height;
 		int nLevels = gameManager.levels.Count;
-		Vector2 origin = new Vector2(0, ((nLevels - 1) * (BUTTON_HEIGHT + gameManager.VERETICAL_BUTTON_OFFSET)) / 2);
+		Vector2 origin = new Vector2(0, ((nLevels - 1) * (BUTTON_HEIGHT + gameManager.VERTICAL_BUTTON_OFFSET)) / 2);
 		for(int i = 0; i < nLevels; i++) {
 			GameObject levelButtonGO = GameObject.Instantiate<GameObject>(buttonPrefab, this.gameObject.transform);
-			levelButtonGO.transform.localPosition = origin - new Vector2(0, i * (BUTTON_HEIGHT + gameManager.VERETICAL_BUTTON_OFFSET));
+			levelButtonGO.transform.localPosition = origin - new Vector2(0, i * (BUTTON_HEIGHT + gameManager.VERTICAL_BUTTON_OFFSET));
 
 			TextMeshProUGUI textMesh = levelButtonGO.GetComponentInChildren<TextMeshProUGUI>();
 			textMesh.text = $"LEVEL {i + 1}";

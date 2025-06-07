@@ -45,12 +45,12 @@ public class LevelCompletedWindow : MonoBehaviour {
 
 		// Position the buttons in the center of the screen
 		float BUTTON_HEIGHT = nextLevelButtonPrefab.GetComponent<RectTransform>().rect.height;
-		Vector2 origin = new Vector2(0, ((visibleButtons.Count - 1) * (BUTTON_HEIGHT + gameManager.VERETICAL_BUTTON_OFFSET)) / 2);
+		Vector2 origin = new Vector2(0, ((visibleButtons.Count - 1) * (BUTTON_HEIGHT + gameManager.VERTICAL_BUTTON_OFFSET)) / 2);
 		for(int i = 0; i < visibleButtons.Count; i++) {
 			Button button = visibleButtons[i];
 
 			RectTransform rectTransform = button.GetComponent<RectTransform>();
-			rectTransform.localPosition = origin - new Vector2(0, i * (BUTTON_HEIGHT + gameManager.VERETICAL_BUTTON_OFFSET));
+			rectTransform.localPosition = origin - new Vector2(0, i * (BUTTON_HEIGHT + gameManager.VERTICAL_BUTTON_OFFSET));
 		}
     }
 
