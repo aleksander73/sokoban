@@ -303,7 +303,7 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 802ff99c85bd0074ea48168e6330729f, type: 3}
   - {fileID: 4900000, guid: 000b5feb0d97f03479d8013b7849ef07, type: 3}
   positiveColor: {r: 0.47843137, g: 1, b: 0.33333334, a: 1}
-  VERETICAL_BUTTON_OFFSET: 10
+  VERTICAL_BUTTON_OFFSET: 10
 --- !u!1001 &1024821750
 PrefabInstance:
   m_ObjectHideFlags: 0
