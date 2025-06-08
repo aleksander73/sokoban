@@ -1,18 +1,19 @@
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelUI : MonoBehaviour {
 	private LevelManager levelManager;
+	private GameObject menu;
 	public GameObject menuToggle;
 	private GameObject optionsWindow;
 	private GameObject levelCompletedWindow;
 
     void Start() {
 		this.levelManager = GameObject.Find("level_manager").GetComponent<LevelManager>();
+		this.menu = GameObject.Find("menu");
 
 		// Position "menu_toggle" button in the upper left corner of the screen
-		GameObject menuToggleGO = GameObject.Instantiate<GameObject>(this.menuToggle, this.gameObject.transform);
+		GameObject menuToggleGO = GameObject.Instantiate<GameObject>(this.menuToggle, this.menu.transform);
 		RectTransform menuToggleRectTransform = menuToggleGO.GetComponent<RectTransform>();
 
 		const float OFFSET = 20f;

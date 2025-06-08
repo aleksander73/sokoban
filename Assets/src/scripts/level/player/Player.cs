@@ -6,29 +6,28 @@ public class Player : MonoBehaviour {
 	private LevelManager levelManager;
 	private bool windowEnabled;
 
-	private List<Transition> transitions;
+	private List<GameObjectAnimation<Vector3>> positionAnimations;
 
 	private void Start() {
 		GameObject levelManager = GameObject.Find("level_manager");
 		this.levelManager = levelManager.GetComponent<LevelManager>();
 		this.windowEnabled = false;
-		this.transitions = new List<Transition>();
+		this.positionAnimations = new List<GameObjectAnimation<Vector3>>();
 	}
 
 	private void Update() {
-		// Update or remove transitions
-		List<Transition> transitionsToRemove = new List<Transition>();
-		this.transitions.ForEach(transition => {
-			if(transition.GetInProgres()) {
-				transition.Update();
-			} else {
-				transitionsToRemove.Add(transition);
+		// Update or remove animations
+		List<GameObjectAnimation<Vector3>> positionAnimationsToRemove = new List<GameObjectAnimation<Vector3>>();
+		this.positionAnimations.ForEach(animation => {
+			animation.Update();
+			if(animation.IsFinished()) {
+				positionAnimationsToRemove.Add(animation);
 			}
 		});
-		transitionsToRemove.ForEach(transition => transitions.Remove(transition));
+		positionAnimationsToRemove.ForEach(pa => this.positionAnimations.Remove(pa));
 
-		bool activeTransitions = transitions.Count != 0;
-		if(!this.windowEnabled && !activeTransitions) {
+		bool activeAnimations = positionAnimations.Count != 0;
+		if(!this.windowEnabled && !activeAnimations) {
 			// Handle user input
 			this.HandleMovement();
 		}
@@ -66,7 +65,7 @@ public class Player : MonoBehaviour {
 		float freeWalkDuration = 0.2f;
 
 		if(this.NodeIsEmpty(destNode)) {
-			this.Move(this.gameObject, playerOccupyPosition, freeWalkDuration, () => {});
+			this.Move(this.gameObject, playerOccupyPosition, freeWalkDuration, null, null);
 		} else {
 			if(destNode.GetValue().GetCellType() == CellType.WALL) {
 				// Wall ahead of the player
@@ -84,16 +83,24 @@ public class Player : MonoBehaviour {
 			Box box = boxGO.GetComponent<Box>();
 			float moveDuration = box.GetBoxMovingLength();
 
-			this.Move(this.gameObject, playerOccupyPosition, moveDuration, () => {});
-			Vector3 boxOccupyPosition = this.ToOccupyPosition(nextDestNode);
-			box.GetComponent<Box>().OnMovingStarted();
-			this.Move(boxGO, boxOccupyPosition, moveDuration, new Action(() => {
-				box.GetComponent<Box>().OnMovingEnded();
-				if(nextDestNode.GetValue().GetCellType() == CellType.TARGET) {
-					// If the box was moved onto a target cell, check for level complete
-					this.levelManager.CheckForLevelComplete();
-				}
-			}));
+			this.Move(this.gameObject, playerOccupyPosition, moveDuration, null, null);
+			this.Move(
+				boxGO,
+				this.ToOccupyPosition(nextDestNode),
+				moveDuration, 
+				new Action<GameObject>(gameObject => {
+					Box box = gameObject.GetComponent<Box>();
+					box.OnMovingStarted();
+				}),
+				new Action<GameObject>(gameObject => {
+					Box box = gameObject.GetComponent<Box>();
+					box.OnMovingEnded();
+					if(nextDestNode.GetValue().GetCellType() == CellType.TARGET) {
+						// If the box was moved onto a target cell, check for level complete
+						this.levelManager.CheckForLevelComplete();
+					}
+				})
+			);
 		}
 	}
 
@@ -137,10 +144,17 @@ public class Player : MonoBehaviour {
 		return occupyPosition;
 	}
 
-	private void Move(GameObject go, Vector3 target, float duration, Action onMoveFinished) {
-		Transition transition = new Transition(go, target, duration, onMoveFinished);
-		transition.Start();
-		this.transitions.Add(transition);
+	private void Move(GameObject go, Vector3 target, float duration, Action<GameObject> onMoveStarted, Action<GameObject> onMoveFinished) {
+		Animation<Vector3> animation = new Animation<Vector3>(0, duration, Interpolators.GetInterpolatorVector3(go.transform.position, target, duration));
+		Action<Vector3, GameObject> applyResult = new Action<Vector3, GameObject>((result, gameObject) => {
+			gameObject.transform.position = result;
+		});
+
+		GameObjectAnimation<Vector3> positionAnimation = new GameObjectAnimation<Vector3>(go, animation, applyResult);
+		positionAnimation.onStarted += onMoveStarted;
+		positionAnimation.onFinished += onMoveFinished;
+		positionAnimation.Start();
+		this.positionAnimations.Add(positionAnimation);
 	}
 
 	public void SetWIndowEnabled(bool windowEnabled) {
@@ -149,51 +163,39 @@ public class Player : MonoBehaviour {
 
 	// ==================================================
 
-	public class Transition {
+	public class GameObjectAnimation<T> {
 		private readonly GameObject gameObject;
-		private readonly Vector3 origin;
-		private readonly Vector3 target;
-		private readonly float duration;
-		private readonly Action onFinished;
-		private float startTime;
-		private bool inProgress;
+		private readonly Animation<T> animation;
+		private readonly Action<T, GameObject> applyResult;
+		public Action<GameObject> onStarted;
+		public Action<GameObject> onFinished;
 
-		public Transition(GameObject gameObject, Vector3 target, float duration, Action onFinished) {
+		public GameObjectAnimation(GameObject gameObject, Animation<T> animation, Action<T, GameObject> applyResult) {
 			this.gameObject = gameObject;
-			this.origin = gameObject.transform.position;
-			this.target = target;
-			this.duration = duration;
-			this.onFinished = onFinished;
-
-			this.inProgress = false;
+			this.animation = animation;
+			this.applyResult = applyResult;
 		}
 
 		public void Start() {
-			this.startTime = Time.time;
-			this.inProgress = true;
-		}
+			this.animation.Start();
+            this.onStarted?.Invoke(this.gameObject);
+        }
 
 		public void Update() {
-			if(!this.inProgress) {
+			if(this.IsFinished()) {
 				return;
 			}
 
-			if(Time.time > this.startTime + this.duration) {
-				this.inProgress = false;
-				this.gameObject.transform.position = this.target;
-				this.onFinished();
-				return;
+			T result = this.animation.Update();
+			this.applyResult(result, this.gameObject);
+
+			if(this.animation.IsFinished()) {
+				this.onFinished?.Invoke(this.gameObject);
 			}
-
-			float elapsedTime = Time.time - this.startTime;
-			Vector3 r = this.target - this.origin;
-			Vector3 newPosition = origin + r * (elapsedTime / this.duration);
-
-			this.gameObject.transform.position = newPosition;
 		}
 
-		public bool GetInProgres() {
-			return this.inProgress;
+		public bool IsFinished() {
+			return this.animation.IsFinished();
 		}
 	}
 }
