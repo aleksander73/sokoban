@@ -19,9 +19,18 @@ public class Animation<T> {
         this.startTime = Time.time;
     }
 
+    public void Reset() {
+        this.startTime = 0f;
+        this.finished = false;
+    }
+
     public T Update() {
+        if (this.finished) {
+            return this.getValue(t1);
+        }
+
         float endTime = this.startTime + (t1 - t0);
-        if(!this.finished && Time.time > endTime) {
+        if(Time.time > endTime) {
             this.finished = true;
         }
 

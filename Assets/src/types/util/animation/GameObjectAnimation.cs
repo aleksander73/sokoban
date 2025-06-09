@@ -32,6 +32,10 @@ public class GameObjectAnimation<T> {
         }
     }
 
+    public Animation<T> GetAnimation() {
+        return this.animation;
+    }
+
     public bool IsFinished() {
         return this.animation.IsFinished();
     }

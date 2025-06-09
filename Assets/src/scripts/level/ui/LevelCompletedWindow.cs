@@ -55,12 +55,18 @@ public class LevelCompletedWindow : MonoBehaviour {
     }
 
 	private void OnNextLevel() {
-		levelManager.LoadLevel(++gameManager.LevelToLoad);
-		// Hide the options window
-		this.ui.GetComponent<LevelUI>().ToggleLevelCompletedWindow();
+		CameraEffects cameraEffects = Camera.main.GetComponent<CameraEffects>();
+		cameraEffects.Blink(overlay => {
+			this.ui.GetComponent<LevelUI>().ToggleLevelCompletedWindow();
+			gameManager.LevelToLoad++;
+			levelManager.LoadLevel(gameManager.LevelToLoad);
+		});
 	}
 
 	private void OnMainMenu() {
-		SceneManager.LoadScene(Scenes.MAIN_MENU, LoadSceneMode.Single);
+		CameraEffects cameraEffects = Camera.main.GetComponent<CameraEffects>();
+		cameraEffects.FadeOut(overlay => {
+			SceneManager.LoadScene(Scenes.MAIN_MENU, LoadSceneMode.Single);
+		});
 	}
 }

@@ -36,8 +36,11 @@ public class MainMenu : MonoBehaviour {
 	// --------------------------------------------------
 
 	public void OnLevelSelect() {
-		this.gameObject.SetActive(false);
-		levelsMenu.SetActive(true);
+		CameraEffects cameraEffects = Camera.main.GetComponent<CameraEffects>();
+		cameraEffects.Blink(overlay => {
+			this.gameObject.SetActive(false);
+			levelsMenu.SetActive(true);
+		});
 	}
 
 	public void OnQuit() {

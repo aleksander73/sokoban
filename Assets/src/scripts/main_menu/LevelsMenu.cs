@@ -33,8 +33,10 @@ public class LevelsMenu : MonoBehaviour {
 
 			int levelToLoad = i;
 			levelButton.onClick.AddListener(() => {
-				gameManager.LevelToLoad = levelToLoad;
-				SceneManager.LoadScene(Scenes.LEVEL, LoadSceneMode.Single);
+				Camera.main.GetComponent<CameraEffects>().FadeOut(overlay => {
+					gameManager.LevelToLoad = levelToLoad;
+					SceneManager.LoadScene(Scenes.LEVEL, LoadSceneMode.Single);
+				});
 			});
 
 			levelButtons.Add(levelButton);
@@ -55,8 +57,11 @@ public class LevelsMenu : MonoBehaviour {
 
 		Button backButton = backButtonGO.GetComponent<Button>();
 		backButton.onClick.AddListener(() => {
-			mainMenu.SetActive(true);
-			this.gameObject.SetActive(false);
+			CameraEffects cameraEffects = Camera.main.GetComponent<CameraEffects>();
+			cameraEffects.Blink(overlay => {
+				mainMenu.SetActive(true);
+				this.gameObject.SetActive(false);
+			});
 		});
     }
 }

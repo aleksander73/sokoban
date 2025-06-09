@@ -25,13 +25,9 @@ public class LevelManager : MonoBehaviour {
 		this.gameManager = GameObject.Find("game_manager").GetComponent<GameManager>();
 		this.levelReader = new LevelReader(this.floorPrefab, this.targetPrefab, this.wallPrefab);
 		this.levelUI = GameObject.Find("ui").GetComponent<LevelUI>();
-	}
 
-	private void Update() {
-		GameObject level = GameObject.Find("level");
-		if(level == null) {
-			this.LoadLevel(gameManager.LevelToLoad);
-		}
+		this.LoadLevel(gameManager.LevelToLoad);
+		Camera.main.GetComponent<CameraEffects>().FadeIn(null);
 	}
 
 	public void LoadLevel(int levelIndex) {
