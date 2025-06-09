@@ -20,15 +20,29 @@ public class LevelManager : MonoBehaviour {
 	private Grid<Cell> grid;
 	private GameObject player;
 	private readonly List<GameObject> boxes = new List<GameObject>();
+	private GameObjectAnimation<float> volumeAnimation;
 
 	private void Start() {
 		this.gameManager = GameObject.Find("game_manager").GetComponent<GameManager>();
 		this.levelReader = new LevelReader(this.floorPrefab, this.targetPrefab, this.wallPrefab);
 		this.levelUI = GameObject.Find("ui").GetComponent<LevelUI>();
 
+		this.volumeAnimation = new GameObjectAnimation<float>(
+            this.gameObject,
+            new Animation<float>(0f, 2f, Interpolators.GetInterpolatorFloat(0f, 0.1f, 2f)),
+            (soundVolume, gameObject) => {
+                AudioSource backgroundMusic = gameObject.GetComponent<AudioSource>();
+                backgroundMusic.volume = soundVolume;
+            }
+        );
+
 		this.LoadLevel(gameManager.LevelToLoad);
 		Camera.main.GetComponent<CameraEffects>().FadeIn(null);
 	}
+
+    private void Update()  {
+        this.volumeAnimation.Update();
+    }
 
 	public void LoadLevel(int levelIndex) {
 		// Clear the level if one already exists

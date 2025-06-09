@@ -7,12 +7,14 @@ public class Player : MonoBehaviour {
 	private bool windowEnabled;
 
 	private List<GameObjectAnimation<Vector3>> positionAnimations;
+	private AudioSource playerMovingSfx;
 
 	private void Start() {
 		GameObject levelManager = GameObject.Find("level_manager");
 		this.levelManager = levelManager.GetComponent<LevelManager>();
 		this.windowEnabled = false;
 		this.positionAnimations = new List<GameObjectAnimation<Vector3>>();
+		this.playerMovingSfx = this.GetComponent<AudioSource>();
 	}
 
 	private void Update() {
@@ -62,10 +64,9 @@ public class Player : MonoBehaviour {
 		// --------------------------------------------------
 
 		Vector3 playerOccupyPosition = this.ToOccupyPosition(destNode);
-		float freeWalkDuration = 0.2f;
 
 		if(this.NodeIsEmpty(destNode)) {
-			this.Move(this.gameObject, playerOccupyPosition, freeWalkDuration, null, null);
+			this.Move(this.gameObject, playerOccupyPosition, this.playerMovingSfx.clip.length, player => this.OnMovingStarted(true), null);
 		} else {
 			if(destNode.GetValue().GetCellType() == CellType.WALL) {
 				// Wall ahead of the player
@@ -81,21 +82,22 @@ public class Player : MonoBehaviour {
 
 			GameObject boxGO = this.GetBoxAtPosition(destNode.GetPosition());
 			Box box = boxGO.GetComponent<Box>();
-			float moveDuration = box.GetBoxMovingLength();
+			bool boxMovedOntoTarget = nextDestNode.GetValue().GetCellType() == CellType.TARGET;
+			float moveDuration = !boxMovedOntoTarget ? box.GetBoxMoving().length : box.GetBoxOnTarget().length;
 
-			this.Move(this.gameObject, playerOccupyPosition, moveDuration, null, null);
+			this.Move(this.gameObject, playerOccupyPosition, moveDuration, player => this.OnMovingStarted(false), null);
 			this.Move(
 				boxGO,
 				this.ToOccupyPosition(nextDestNode),
 				moveDuration, 
 				new Action<GameObject>(gameObject => {
 					Box box = gameObject.GetComponent<Box>();
-					box.OnMovingStarted();
+					box.OnMovingStarted(boxMovedOntoTarget);
 				}),
 				new Action<GameObject>(gameObject => {
 					Box box = gameObject.GetComponent<Box>();
 					box.OnMovingEnded();
-					if(nextDestNode.GetValue().GetCellType() == CellType.TARGET) {
+					if(boxMovedOntoTarget) {
 						// If the box was moved onto a target cell, check for level complete
 						this.levelManager.CheckForLevelComplete();
 					}
@@ -155,6 +157,12 @@ public class Player : MonoBehaviour {
 		positionAnimation.onFinished += onMoveFinished;
 		positionAnimation.Start();
 		this.positionAnimations.Add(positionAnimation);
+	}
+
+	private void OnMovingStarted(bool playMovingSfx) {
+		if(playMovingSfx) {
+			this.playerMovingSfx.Play();
+		}
 	}
 
 	public void SetWIndowEnabled(bool windowEnabled) {

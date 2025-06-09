@@ -83,5 +83,11 @@ public class CameraEffects : MonoBehaviour {
             return -Math.Abs((t / fadeDuration) - 1) + 1;
         }), onFinished);
         return fadeOutIn;
-    }    
+    }
+
+    // ==================================================
+
+    public float GetFadeDuration() {
+        return this.fadeDuration;
+    }
 }
