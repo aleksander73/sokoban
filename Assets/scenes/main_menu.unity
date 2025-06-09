@@ -718,7 +718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonPrefab: {fileID: 6370695166642689090, guid: e2773e665418bd54d951d6e31baa9e14, type: 3}
-  backButtonPrefab: {fileID: 2285088643833347106, guid: 62687b277c5fb4a418abfd5cc459b96d, type: 3}
+  backButtonPrefab: {fileID: 2252623293575373591, guid: 8e65815d99e172841829b10d15b6dadc, type: 3}
   levelButtons: []
 --- !u!1 &1222465023
 GameObject:

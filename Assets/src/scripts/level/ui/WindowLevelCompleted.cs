@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LevelCompletedWindow : MonoBehaviour {
+public class WindowLevelCompleted : MonoBehaviour {
 	private GameManager gameManager;
 	private LevelManager levelManager;
 	private GameObject ui;
@@ -57,7 +57,7 @@ public class LevelCompletedWindow : MonoBehaviour {
 	private void OnNextLevel() {
 		CameraEffects cameraEffects = Camera.main.GetComponent<CameraEffects>();
 		cameraEffects.Blink(overlay => {
-			this.ui.GetComponent<LevelUI>().ToggleLevelCompletedWindow();
+			this.ui.GetComponent<LevelUI>().ToggleWindowLevelCompleted();
 			gameManager.LevelToLoad++;
 			levelManager.LoadLevel(gameManager.LevelToLoad);
 		});

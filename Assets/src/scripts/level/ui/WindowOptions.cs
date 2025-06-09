@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class OptionsWindow : MonoBehaviour {
+public class WindowOptions : MonoBehaviour {
 	private GameManager gameManager;
 	private GameObject ui;
 	private LevelManager levelManager;
@@ -27,17 +27,14 @@ public class OptionsWindow : MonoBehaviour {
 			UnityAction callback = entry.Value;
 			button.GetComponent<Button>().onClick.AddListener(callback);
         }
-
-		// Set the color to `positive color`
-		this.gameObject.GetComponent<Image>().color = gameManager.positiveColor;
     }
 
 	private void OnResumeGame() {
-		this.ui.GetComponent<LevelUI>().ToggleOptionsWindow();
+		this.ui.GetComponent<LevelUI>().ToggleWindowOptions();
 	}
 
 	private void OnRestartLevel() {
-		this.ui.GetComponent<LevelUI>().ToggleOptionsWindow();
+		this.ui.GetComponent<LevelUI>().ToggleWindowOptions();
 
 		CameraEffects cameraEffects = Camera.main.GetComponent<CameraEffects>();
 		cameraEffects.Blink(overlay => {

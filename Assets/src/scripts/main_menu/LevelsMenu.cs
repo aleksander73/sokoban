@@ -55,6 +55,8 @@ public class LevelsMenu : MonoBehaviour {
 			(-Screen.height + backButtonRectTransform.rect.height) / 2  + OFFSET
 		);
 
+		backButtonGO.GetComponentInChildren<TextMeshProUGUI>().text = "BACK";
+
 		Button backButton = backButtonGO.GetComponent<Button>();
 		backButton.onClick.AddListener(() => {
 			CameraEffects cameraEffects = Camera.main.GetComponent<CameraEffects>();

@@ -4,17 +4,18 @@ using UnityEngine.UI;
 public class LevelUI : MonoBehaviour {
 	private LevelManager levelManager;
 	private GameObject menu;
-	public GameObject menuToggle;
-	private GameObject optionsWindow;
-	private GameObject levelCompletedWindow;
+	public GameObject menuTogglePrefab;
+	private GameObject menuToggle;
+	private GameObject windowOptions;
+	private GameObject windowLevelCompleted;
 
     void Start() {
 		this.levelManager = GameObject.Find("level_manager").GetComponent<LevelManager>();
 		this.menu = GameObject.Find("menu");
 
 		// Position "menu_toggle" button in the upper left corner of the screen
-		GameObject menuToggleGO = GameObject.Instantiate<GameObject>(this.menuToggle, this.menu.transform);
-		RectTransform menuToggleRectTransform = menuToggleGO.GetComponent<RectTransform>();
+		this.menuToggle = GameObject.Instantiate<GameObject>(this.menuTogglePrefab, this.menu.transform);
+		RectTransform menuToggleRectTransform = menuToggle.GetComponent<RectTransform>();
 
 		const float OFFSET = 20f;
 		menuToggleRectTransform.localPosition = new Vector2(
@@ -22,25 +23,25 @@ public class LevelUI : MonoBehaviour {
 			(Screen.height - menuToggleRectTransform.rect.height) / 2  - OFFSET
 		);
 
-		Button menuToggleButton = menuToggleGO.GetComponent<Button>();
+		Button menuToggleButton = menuToggle.GetComponent<Button>();
 		menuToggleButton.onClick.AddListener(() => {
-			this.ToggleOptionsWindow();
+			this.ToggleWindowOptions();
 		});
 
 		// =========================
 
 		// Deactivate the options window
-		this.optionsWindow = GameObject.Find("options_window");
-		this.optionsWindow.SetActive(false);
+		this.windowOptions = GameObject.Find("window_options");
+		this.windowOptions.SetActive(false);
 
 		// Deactivate the level completed window
-		this.levelCompletedWindow = GameObject.Find("level_completed_window");
-		this.levelCompletedWindow.SetActive(false);
+		this.windowLevelCompleted = GameObject.Find("window_level_completed");
+		this.windowLevelCompleted.SetActive(false);
     }
 
     void Update() {
         if(Input.GetKeyDown(KeyCode.Escape)) {
-			this.ToggleOptionsWindow();
+			this.menuToggle.GetComponent<Button>().onClick.Invoke();
 		}
     }
 
@@ -50,13 +51,13 @@ public class LevelUI : MonoBehaviour {
 		this.levelManager.SetWindowEnabled(window.activeSelf);
 	}
 
-	public void ToggleOptionsWindow() {
-		this.optionsWindow.SetActive(!optionsWindow.activeSelf);
-		this.OnWindowToggle(optionsWindow);
+	public void ToggleWindowOptions() {
+		this.windowOptions.SetActive(!windowOptions.activeSelf);
+		this.OnWindowToggle(windowOptions);
 	}
 
-	public void ToggleLevelCompletedWindow() {
-		this.levelCompletedWindow.SetActive(!levelCompletedWindow.activeSelf);
-		this.OnWindowToggle(levelCompletedWindow);
+	public void ToggleWindowLevelCompleted() {
+		this.windowLevelCompleted.SetActive(!windowLevelCompleted.activeSelf);
+		this.OnWindowToggle(windowLevelCompleted);
 	}
 }

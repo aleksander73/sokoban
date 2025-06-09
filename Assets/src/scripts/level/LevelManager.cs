@@ -110,7 +110,7 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	private void OnLevelCompleted() {
-		levelUI.ToggleLevelCompletedWindow();
+		levelUI.ToggleWindowLevelCompleted();
 	}
 
 	private void ClearLevel() {
