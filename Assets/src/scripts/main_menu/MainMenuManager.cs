@@ -8,7 +8,7 @@ public class MainMenuManager : MonoBehaviour {
 
         this.volumeAnimation = new GameObjectAnimation<float>(
             this.gameObject,
-            new Animation<float>(0f, 2f, Interpolators.GetInterpolatorFloat(0f, 0.1f, 2f)),
+            new Animation<float>(0f, 2f, Interpolators.GetInterpolatorFloat(0f, 0.5f, 2f)),
             (soundVolume, gameObject) => {
                 AudioSource backgroundMusic = gameObject.GetComponent<AudioSource>();
                 backgroundMusic.volume = soundVolume;
