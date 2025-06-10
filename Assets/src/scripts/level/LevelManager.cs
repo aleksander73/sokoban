@@ -110,7 +110,7 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	private void OnLevelCompleted() {
-		levelUI.ToggleWindowLevelCompleted();
+		levelUI.ToggleWindowLevelCompleted(false, _ => {});
 	}
 
 	private void ClearLevel() {
@@ -135,8 +135,8 @@ public class LevelManager : MonoBehaviour {
 		return this.PLAYER_LEVEL;
 	}
 
-	public void SetWindowEnabled(bool windowEnabled) {
-		this.player.GetComponent<Player>().SetWIndowEnabled(windowEnabled);
+	public void SetWindowOnScreen(bool windowOnScreen) {
+		this.player.GetComponent<Player>().SetWindowOnScreen(windowOnScreen);
 	}
 
 	public Grid<Cell> GetGrid() {

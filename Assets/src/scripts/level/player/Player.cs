@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 	private LevelManager levelManager;
-	private bool windowEnabled;
+	private bool windowOnScreen;
 
 	private List<GameObjectAnimation<Vector3>> positionAnimations;
 	private AudioSource playerMovingSfx;
@@ -12,7 +12,6 @@ public class Player : MonoBehaviour {
 	private void Start() {
 		GameObject levelManager = GameObject.Find("level_manager");
 		this.levelManager = levelManager.GetComponent<LevelManager>();
-		this.windowEnabled = false;
 		this.positionAnimations = new List<GameObjectAnimation<Vector3>>();
 		this.playerMovingSfx = this.GetComponent<AudioSource>();
 	}
@@ -29,7 +28,7 @@ public class Player : MonoBehaviour {
 		positionAnimationsToRemove.ForEach(pa => this.positionAnimations.Remove(pa));
 
 		bool activeAnimations = positionAnimations.Count != 0;
-		if(!this.windowEnabled && !activeAnimations) {
+		if(!this.windowOnScreen && !activeAnimations) {
 			// Handle user input
 			this.HandleMovement();
 		}
@@ -165,7 +164,7 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	public void SetWIndowEnabled(bool windowEnabled) {
-		this.windowEnabled = windowEnabled;
+	public void SetWindowOnScreen(bool windowOnScreen) {
+		this.windowOnScreen = windowOnScreen;
 	}
 }

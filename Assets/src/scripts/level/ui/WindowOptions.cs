@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class WindowOptions : MonoBehaviour {
+public class WindowOptions : Window {
 	private GameManager gameManager;
 	private GameObject ui;
 	private LevelManager levelManager;
@@ -30,11 +30,11 @@ public class WindowOptions : MonoBehaviour {
     }
 
 	private void OnResumeGame() {
-		this.ui.GetComponent<LevelUI>().ToggleWindowOptions();
+		this.ui.GetComponent<LevelUI>().ToggleWindow(true, this.gameObject, _ => {});
 	}
 
 	private void OnRestartLevel() {
-		this.ui.GetComponent<LevelUI>().ToggleWindowOptions();
+		this.ui.GetComponent<LevelUI>().ToggleWindow(true, this.gameObject, _ => {});
 
 		CameraEffects cameraEffects = Camera.main.GetComponent<CameraEffects>();
 		cameraEffects.Blink(overlay => {

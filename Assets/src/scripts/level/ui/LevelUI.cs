@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,18 +26,13 @@ public class LevelUI : MonoBehaviour {
 
 		Button menuToggleButton = menuToggle.GetComponent<Button>();
 		menuToggleButton.onClick.AddListener(() => {
-			this.ToggleWindowOptions();
+			this.ToggleWindow(false, windowOptions, _ => {});
 		});
 
 		// =========================
 
-		// Deactivate the options window
 		this.windowOptions = GameObject.Find("window_options");
-		this.windowOptions.SetActive(false);
-
-		// Deactivate the level completed window
 		this.windowLevelCompleted = GameObject.Find("window_level_completed");
-		this.windowLevelCompleted.SetActive(false);
     }
 
     void Update() {
@@ -47,17 +43,16 @@ public class LevelUI : MonoBehaviour {
 
 	// ==================================================
 
-	private void OnWindowToggle(GameObject window) {
-		this.levelManager.SetWindowEnabled(window.activeSelf);
+	public void ToggleWindow(bool immediately, GameObject targetWindow, Action<GameObject> onFinished) {
+		Window window = targetWindow.GetComponent<Window>();
+		this.levelManager.SetWindowOnScreen(true); // true because the window always begins transition when toggled
+		window.Toggle(immediately, windowGO => {
+			onFinished(windowGO);
+			this.levelManager.SetWindowOnScreen(window.IsVisible());
+		});
 	}
 
-	public void ToggleWindowOptions() {
-		this.windowOptions.SetActive(!windowOptions.activeSelf);
-		this.OnWindowToggle(windowOptions);
-	}
-
-	public void ToggleWindowLevelCompleted() {
-		this.windowLevelCompleted.SetActive(!windowLevelCompleted.activeSelf);
-		this.OnWindowToggle(windowLevelCompleted);
+	public void ToggleWindowLevelCompleted(bool immediately, Action<GameObject> onFinished) {
+		this.ToggleWindow(immediately, windowLevelCompleted, onFinished);
 	}
 }
