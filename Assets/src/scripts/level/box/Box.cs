@@ -27,8 +27,6 @@ public class Box : MonoBehaviour {
 		GridNode<Cell> nodeBelow = this.grid.FindNodeByPosition(this.transform.position);
 		if(nodeBelow.GetValue().GetCellType() == CellType.TARGET) {
 			this.sr.color = this.onTargetColor;
-		} else {
-			this.sr.color = this.defaultColor;
 		}
 	}
 
