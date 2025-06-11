@@ -69,15 +69,15 @@ public class Window : MonoBehaviour {
             duration,
             new Func<float, float>(t => duration > 0 ? (t / duration) : 1),
             window => {
-                CanvasGroup canvasGroup = window.GetComponent<CanvasGroup>();
-                canvasGroup.interactable = true;
-                canvasGroup.blocksRaycasts = true;
                 this.state = WindowState.VISIBLE;
                 onFinished(window);
             }
         );
         fadeIn.onStarted += window => {
             this.state = WindowState.FADING_IN;
+            CanvasGroup canvasGroup = window.GetComponent<CanvasGroup>();
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
         };
         return fadeIn;
     }
@@ -87,14 +87,14 @@ public class Window : MonoBehaviour {
             duration,
             new Func<float, float>(t => duration > 0 ? (1 - t / duration) : 0),
             window => {
+                CanvasGroup canvasGroup = window.GetComponent<CanvasGroup>();
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
                 this.state = WindowState.HIDDEN;
                 onFinished(window);
             }
         );
         fadeOut.onStarted += window => {
-            CanvasGroup canvasGroup = window.GetComponent<CanvasGroup>();
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
             this.state = WindowState.FADING_OUT;
         };
         return fadeOut;
