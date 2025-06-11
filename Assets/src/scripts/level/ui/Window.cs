@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 public class Window : MonoBehaviour {
-    private readonly float defaultFadeDuration = 0.1f;
+    private readonly float defaultFadeDuration = 0f;
     private GameObjectAnimation<float> activeFadeAnimation;
     private WindowState state = WindowState.HIDDEN;
 
@@ -76,7 +76,6 @@ public class Window : MonoBehaviour {
         fadeIn.onStarted += window => {
             this.state = WindowState.FADING_IN;
             CanvasGroup canvasGroup = window.GetComponent<CanvasGroup>();
-            canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
         };
         return fadeIn;
@@ -88,7 +87,6 @@ public class Window : MonoBehaviour {
             new Func<float, float>(t => duration > 0 ? (1 - t / duration) : 0),
             window => {
                 CanvasGroup canvasGroup = window.GetComponent<CanvasGroup>();
-                canvasGroup.interactable = false;
                 canvasGroup.blocksRaycasts = false;
                 this.state = WindowState.HIDDEN;
                 onFinished(window);

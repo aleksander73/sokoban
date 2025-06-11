@@ -18,7 +18,6 @@ public class Box : MonoBehaviour {
 	}
 
 	public void OnMovingStarted(bool boxMovedOntoTarget) {
-		this.sr.color = this.defaultColor;
 		AudioSource sourceToPlay = !boxMovedOntoTarget ? boxMovingSfx : boxOnTargetSfx;
 		sourceToPlay.Play();
 	}

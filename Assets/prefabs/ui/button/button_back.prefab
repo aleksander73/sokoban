@@ -8,18 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 288639046220999734, guid: e2773e665418bd54d951d6e31baa9e14, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.b
-      value: 0.6698113
-      objectReference: {fileID: 0}
-    - target: {fileID: 288639046220999734, guid: e2773e665418bd54d951d6e31baa9e14, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.g
-      value: 0.6698113
-      objectReference: {fileID: 0}
-    - target: {fileID: 288639046220999734, guid: e2773e665418bd54d951d6e31baa9e14, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.r
-      value: 0.6698113
-      objectReference: {fileID: 0}
     - target: {fileID: 597011258225458016, guid: e2773e665418bd54d951d6e31baa9e14, type: 3}
       propertyPath: m_text
       value: BACK
@@ -50,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 699568454100806483, guid: e2773e665418bd54d951d6e31baa9e14, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 150
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 699568454100806483, guid: e2773e665418bd54d951d6e31baa9e14, type: 3}
       propertyPath: m_SizeDelta.y
