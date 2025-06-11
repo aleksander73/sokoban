@@ -26,12 +26,8 @@ public class LevelsMenu : MonoBehaviour {
 			TextMeshProUGUI textMesh = levelButtonGO.GetComponentInChildren<TextMeshProUGUI>();
 			textMesh.text = $"LEVEL {i + 1}";
 
-			Button levelButton = levelButtonGO.GetComponent<Button>();
-			ColorBlock colorBlock = levelButton.colors;
-			colorBlock.highlightedColor = gameManager.positiveColor;
-			levelButtonGO.GetComponent<Button>().colors = colorBlock;
-
 			int levelToLoad = i;
+			Button levelButton = levelButtonGO.GetComponent<Button>();
 			levelButton.onClick.AddListener(() => {
 				Camera.main.GetComponent<CameraEffects>().FadeOut(overlay => {
 					gameManager.LevelToLoad = levelToLoad;

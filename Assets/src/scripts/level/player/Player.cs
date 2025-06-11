@@ -146,7 +146,7 @@ public class Player : MonoBehaviour {
 	}
 
 	private void Move(GameObject go, Vector3 target, float duration, Action<GameObject> onMoveStarted, Action<GameObject> onMoveFinished) {
-		Animation<Vector3> animation = new Animation<Vector3>(0, duration, Interpolators.GetInterpolatorVector3(go.transform.position, target, duration));
+		Animation<Vector3> animation = new Animation<Vector3>(0, duration, Interpolators.GetVector3Linear(go.transform.position, target, duration));
 		Action<Vector3, GameObject> applyResult = new Action<Vector3, GameObject>((result, gameObject) => {
 			gameObject.transform.position = result;
 		});

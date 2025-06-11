@@ -15,10 +15,6 @@ public class MainMenu : MonoBehaviour {
 		this.levelsMenu = GameObject.Find("levels_menu");
 		this.levelsMenu.SetActive(false);
 
-		 ColorBlock colorBlock = levelSelectButton.colors;
-		 colorBlock.highlightedColor = gameManager.positiveColor;
-		 levelSelectButton.colors = colorBlock;
-
 		Dictionary<Button, UnityAction> buttonClickHandlers = new Dictionary<Button, UnityAction> {
 			{ levelSelectButton, () => this.OnLevelSelect() },
 			{ quitButton, () => this.OnQuit() }
