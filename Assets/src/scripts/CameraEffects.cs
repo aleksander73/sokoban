@@ -34,11 +34,6 @@ public class CameraEffects : MonoBehaviour {
         this.SetActiveAnimation(fadeOut);
     }
 
-    public void FadeOutIn(Action<GameObject> onFinished) {
-        GameObjectAnimation<float> fadeOutIn = this.CreateFadeOutInAnimation(onFinished);
-        this.SetActiveAnimation(fadeOutIn);
-    }
-
     public void Blink(Action<GameObject> middleAction) {
         this.FadeOut(overlay => {
             middleAction(overlay);
