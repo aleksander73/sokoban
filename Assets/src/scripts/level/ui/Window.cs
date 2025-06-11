@@ -2,14 +2,9 @@ using System;
 using UnityEngine;
 
 public class Window : MonoBehaviour {
-    private float defaultFadeDuration;
+    private readonly float defaultFadeDuration = 0.1f;
     private GameObjectAnimation<float> activeFadeAnimation;
-    private bool isVisible;
-    private bool isTransitioning;
-
-    private void Awake() {
-        this.defaultFadeDuration = 0.1f;
-    }
+    private WindowState state = WindowState.HIDDEN;
 
     private void Update() {
         this.activeFadeAnimation?.Update();
@@ -26,7 +21,7 @@ public class Window : MonoBehaviour {
     // ==================================================
 
     public void Show(bool immediately, Action<GameObject> onFinished) {
-        if(this.isTransitioning) {
+        if(this.state != WindowState.HIDDEN) {
             return;
         }
 
@@ -36,7 +31,7 @@ public class Window : MonoBehaviour {
     }
 
     public void Hide(bool immediately, Action<GameObject> onFinished) {
-        if(this.isTransitioning) {
+        if(this.state != WindowState.VISIBLE) {
             return;
         }
 
@@ -46,9 +41,9 @@ public class Window : MonoBehaviour {
     }
 
     public void Toggle(bool immediately, Action<GameObject> onFinished) {
-        if(this.IsVisible()) {
+        if(this.state == WindowState.VISIBLE) {
 			this.Hide(immediately, onFinished);
-		} else {
+		} else if(this.state == WindowState.HIDDEN) {
 			this.Show(immediately, onFinished);
 		}
     }
@@ -77,13 +72,12 @@ public class Window : MonoBehaviour {
                 CanvasGroup canvasGroup = window.GetComponent<CanvasGroup>();
                 canvasGroup.interactable = true;
                 canvasGroup.blocksRaycasts = true;
-                this.isVisible = true;
-                this.isTransitioning = false;
+                this.state = WindowState.VISIBLE;
                 onFinished(window);
             }
         );
         fadeIn.onStarted += window => {
-            this.isTransitioning = true;
+            this.state = WindowState.FADING_IN;
         };
         return fadeIn;
     }
@@ -93,7 +87,7 @@ public class Window : MonoBehaviour {
             duration,
             new Func<float, float>(t => duration > 0 ? (1 - t / duration) : 0),
             window => {
-                this.isTransitioning = false;
+                this.state = WindowState.HIDDEN;
                 onFinished(window);
             }
         );
@@ -101,19 +95,21 @@ public class Window : MonoBehaviour {
             CanvasGroup canvasGroup = window.GetComponent<CanvasGroup>();
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
-            this.isVisible = false;
-            this.isTransitioning = true;
+            this.state = WindowState.FADING_OUT;
         };
         return fadeOut;
     }
 
     // ==================================================
 
-    public bool IsVisible() {
-        return this.isVisible;
+    public WindowState GetState() {
+        return this.state;
     }
+}
 
-    public bool IsTransitioning() {
-        return this.isTransitioning;
-    }
+public enum WindowState {
+    HIDDEN,
+    FADING_IN,
+    VISIBLE,
+    FADING_OUT
 }

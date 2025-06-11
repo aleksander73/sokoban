@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,18 +38,29 @@ public class LevelUI : MonoBehaviour {
 
     void Update() {
         if(Input.GetKeyDown(KeyCode.Escape)) {
-			this.menuToggle.GetComponent<Button>().onClick.Invoke();
+			this.ToggleWindow(false, windowOptions, _ => {});
 		}
     }
 
 	// ==================================================
 
 	public void ToggleWindow(bool immediately, GameObject targetWindow, Action<GameObject> onFinished) {
+		GameObject[] windows = new GameObject[] { windowOptions, windowLevelCompleted };
+		bool canToggleWindow = windows.All(windowGO => {
+			Window window = windowGO.GetComponent<Window>();
+			return windowGO == targetWindow || window.GetState() == WindowState.HIDDEN;
+		});
+		if(!canToggleWindow) {
+			return;
+		}
+
+		// =========================
+
 		Window window = targetWindow.GetComponent<Window>();
 		this.levelManager.SetWindowOnScreen(true); // true because the window always begins transition when toggled
 		window.Toggle(immediately, windowGO => {
 			onFinished(windowGO);
-			this.levelManager.SetWindowOnScreen(window.IsVisible());
+			this.levelManager.SetWindowOnScreen(window.GetState() != WindowState.HIDDEN);
 		});
 	}
 
