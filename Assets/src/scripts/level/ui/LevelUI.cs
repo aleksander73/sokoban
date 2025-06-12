@@ -30,7 +30,7 @@ public class LevelUI : MonoBehaviour {
 			this.ToggleWindow(false, windowOptions, _ => {});
 		});
 
-		// =========================
+		// -------------------------
 
 		this.windowOptions = GameObject.Find("window_options");
 		this.windowLevelCompleted = GameObject.Find("window_level_completed");
@@ -42,7 +42,7 @@ public class LevelUI : MonoBehaviour {
 		}
     }
 
-	// ==================================================
+	// --------------------------------------------------
 
 	public void ToggleWindow(bool immediately, GameObject targetWindow, Action<GameObject> onFinished) {
 		GameObject[] windows = new GameObject[] { windowOptions, windowLevelCompleted };
@@ -54,7 +54,7 @@ public class LevelUI : MonoBehaviour {
 			return;
 		}
 
-		// =========================
+		// -------------------------
 
 		Window window = targetWindow.GetComponent<Window>();
 		this.levelManager.SetWindowOnScreen(true); // true because the window always begins transition when toggled

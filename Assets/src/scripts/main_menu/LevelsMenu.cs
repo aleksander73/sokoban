@@ -38,7 +38,7 @@ public class LevelsMenu : MonoBehaviour {
 			levelButtons.Add(levelButton);
 		}
 
-		// ==================================================
+		// --------------------------------------------------
 
 		// Position "BACK" button in the lower left corner of the screen
 

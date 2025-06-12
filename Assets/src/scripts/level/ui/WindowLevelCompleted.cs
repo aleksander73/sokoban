@@ -21,7 +21,7 @@ public class WindowLevelCompleted : Window {
 			mainMenuButton
 		};
 
-		// ==================================================
+		// --------------------------------------------------
 
 		Dictionary<Button, UnityAction> buttonClickHandlers = new Dictionary<Button, UnityAction> {
 			{ mainMenuButton, () => this.OnMainMenu() },
@@ -41,7 +41,7 @@ public class WindowLevelCompleted : Window {
 			button.GetComponent<Button>().onClick.AddListener(callback);
         }
 
-		// ==================================================
+		// --------------------------------------------------
 
 		// Position the buttons in the center of the screen
 		float BUTTON_HEIGHT = nextLevelButtonPrefab.GetComponent<RectTransform>().rect.height;

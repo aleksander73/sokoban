@@ -10,7 +10,7 @@ public class Window : MonoBehaviour {
         this.activeFadeAnimation?.Update();
     }
 
-    // ==================================================
+    // --------------------------------------------------
 
     private void SetActiveAnimation(GameObjectAnimation<float> activeAnimation) {
         this.activeFadeAnimation?.GetAnimation().Reset();
@@ -18,7 +18,7 @@ public class Window : MonoBehaviour {
         this.activeFadeAnimation.Start();
     }
 
-    // ==================================================
+    // --------------------------------------------------
 
     public void Show(bool immediately, Action<GameObject> onFinished) {
         if(this.state != WindowState.HIDDEN) {
@@ -48,7 +48,7 @@ public class Window : MonoBehaviour {
 		}
     }
 
-    // ==================================================
+    // --------------------------------------------------
 
     // Helper function to create alpha channel animations
     private GameObjectAnimation<float> CreateAlphaChannelAnimation(float duration, Func<float, float> animationFunc, Action<GameObject> onFinished) {
@@ -98,7 +98,7 @@ public class Window : MonoBehaviour {
         return fadeOut;
     }
 
-    // ==================================================
+    // --------------------------------------------------
 
     public WindowState GetState() {
         return this.state;

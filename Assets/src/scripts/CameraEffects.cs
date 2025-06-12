@@ -18,7 +18,7 @@ public class CameraEffects : MonoBehaviour {
         this.activeFadeAnimation.Start();
     }
 
-    // ==================================================
+    // --------------------------------------------------
 
     public void FadeIn(Action<GameObject> onFinished) {
         GameObjectAnimation<float> fadeIn = this.CreateFadeInAnimation(onFinished);
@@ -37,7 +37,7 @@ public class CameraEffects : MonoBehaviour {
         });
     }
 
-    // ==================================================
+    // --------------------------------------------------
 
     // Helper function to create alpha channel animations
     private GameObjectAnimation<float> CreateAlphaChannelAnimation(float duration, Func<float, float> animationFunc, Action<GameObject> onFinished) {
