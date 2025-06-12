@@ -82,7 +82,6 @@ public class LevelManager : MonoBehaviour {
 		boxes.ForEach(box => {
 			Vector3 boxPosition = new Vector3(box.x, box.y, PLAYER_LEVEL);
 			GameObject boxInstance = GameObject.Instantiate(this.boxPrefab, boxPosition, Quaternion.identity, levelRoot.transform);
-			boxInstance.name = Utility.SimplifyInstanceName(boxInstance.name);
 			this.boxes.Add(boxInstance);
 		});
 	}
