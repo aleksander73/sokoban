@@ -324,10 +324,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9108215817586256115, guid: 1c47845df7d0ae644815d724b50c7158, type: 3}
-      propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9215073674794980087, guid: 1c47845df7d0ae644815d724b50c7158, type: 3}
       propertyPath: m_Name
       value: overlay
