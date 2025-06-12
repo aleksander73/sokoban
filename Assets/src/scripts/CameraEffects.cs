@@ -4,13 +4,9 @@ using UnityEngine.UI;
 
 public class CameraEffects : MonoBehaviour {
     public GameObject overlay;
-    private float fadeDuration;
 
+    private readonly float fadeDuration = 0.3f;
     private GameObjectAnimation<float> activeFadeAnimation;
-
-    private void Awake() {
-        this.fadeDuration = 0.3f;
-    }
 
     private void Update() {
         this.activeFadeAnimation?.Update();
@@ -71,18 +67,5 @@ public class CameraEffects : MonoBehaviour {
             return t / fadeDuration;
         }), onFinished);
         return fadeOut;
-    }
-
-    private GameObjectAnimation<float> CreateFadeOutInAnimation(Action<GameObject> onFinished) {
-        GameObjectAnimation<float> fadeOutIn = this.CreateAlphaChannelAnimation(fadeDuration * 2, new Func<float, float>(t => {
-            return -Math.Abs((t / fadeDuration) - 1) + 1;
-        }), onFinished);
-        return fadeOutIn;
-    }
-
-    // ==================================================
-
-    public float GetFadeDuration() {
-        return this.fadeDuration;
     }
 }

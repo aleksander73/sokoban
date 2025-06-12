@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 	private LevelManager levelManager;
-	private bool windowOnScreen;
-
-	private List<GameObjectAnimation<Vector3>> positionAnimations;
+	private List<GameObjectAnimation<Vector3>> positionAnimations = new List<GameObjectAnimation<Vector3>>();
 	private AudioSource playerMovingSfx;
+
+	private bool windowOnScreen = false;
 
 	private void Start() {
 		GameObject levelManager = GameObject.Find("level_manager");
 		this.levelManager = levelManager.GetComponent<LevelManager>();
-		this.positionAnimations = new List<GameObjectAnimation<Vector3>>();
 		this.playerMovingSfx = this.GetComponent<AudioSource>();
 	}
 
 	private void Update() {
-		// Update or remove animations
+		// Update and remove animations
 		List<GameObjectAnimation<Vector3>> positionAnimationsToRemove = new List<GameObjectAnimation<Vector3>>();
 		this.positionAnimations.ForEach(animation => {
 			animation.Update();
@@ -27,6 +26,7 @@ public class Player : MonoBehaviour {
 		});
 		positionAnimationsToRemove.ForEach(pa => this.positionAnimations.Remove(pa));
 
+		// Handle movement only if no windows on screnn and no GO is moving
 		bool activeAnimations = positionAnimations.Count != 0;
 		if(!this.windowOnScreen && !activeAnimations) {
 			// Handle user input

@@ -8,10 +8,10 @@ public class LevelManager : MonoBehaviour {
 	public GameObject targetPrefab;
 	public GameObject wallPrefab;
 
+	// --------------------------------------------------
+
 	private readonly float CELL_LEVEL = 0.0f;
 	private readonly float PLAYER_LEVEL = -1.0f;
-
-	// --------------------------------------------------
 
 	private GameManager gameManager;
 	private LevelReader levelReader;
@@ -29,7 +29,7 @@ public class LevelManager : MonoBehaviour {
 
 		this.volumeAnimation = new GameObjectAnimation<float>(
             this.gameObject,
-            new Animation<float>(0f, 2f, Interpolators.GetFloatLinear(0f, 0.1f, 2f)),
+            new Animation<float>(0.0f, 2.0f, Interpolators.GetFloatLinear(0.0f, 0.1f, 2.0f)),
             (soundVolume, gameObject) => {
                 AudioSource backgroundMusic = gameObject.GetComponent<AudioSource>();
                 backgroundMusic.volume = soundVolume;
@@ -65,19 +65,16 @@ public class LevelManager : MonoBehaviour {
 
 		// Grid
 		List<GridNode<Cell>> nodes = level.GetGrid().GetNodes();
-		for(int i = 0; i < nodes.Count; i++) {
-			GridNode<Cell> node = nodes[i];
+		nodes.ForEach(node => {
 			GameObject sprite = node.GetValue().GetSprite();
-
 			Vector3 position = new Vector3(node.GetPosition().x, node.GetPosition().y, CELL_LEVEL);
-			GameObject spriteInstance = GameObject.Instantiate(sprite, position, Quaternion.identity, levelRoot.transform);
-			spriteInstance.name = Utility.SimplifyInstanceName(spriteInstance.name);
-		}
+		
+			GameObject.Instantiate(sprite, position, Quaternion.identity, levelRoot.transform);
+		});
 
 		// Player
 		Vector3 playerPosition = new Vector3(level.GetPlayer().x, level.GetPlayer().y, PLAYER_LEVEL);
 		GameObject playerInstance = GameObject.Instantiate(this.playerPrefab, playerPosition, Quaternion.identity, levelRoot.transform);
-		playerInstance.name = Utility.SimplifyInstanceName(playerInstance.name);
 		this.player = playerInstance;
 
 		// Boxes

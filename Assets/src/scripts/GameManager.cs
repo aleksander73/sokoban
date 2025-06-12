@@ -9,5 +9,5 @@ public class GameManager : MonoBehaviour {
 	public int LevelToLoad { get; set; }
 
 	// UI related fields
-	public float VERTICAL_BUTTON_OFFSET = 10f;
+	public readonly float VERTICAL_BUTTON_OFFSET = 10.0f;
 }

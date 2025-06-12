@@ -4,11 +4,12 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
+	public Button levelSelectButton;
+	public Button quitButton;
+	
 	private GameManager gameManager;
 	private GameObject levelsMenu;
 
-	public Button levelSelectButton;
-	public Button quitButton;
 
 	private void Start() {
 		this.gameManager = GameObject.Find("game_manager").GetComponent<GameManager>();

@@ -1,20 +1,17 @@
 using UnityEngine;
 
 public class Box : MonoBehaviour {
-	private Grid<Cell> grid;
-	private SpriteRenderer sr;
-	private Color defaultColor;
-	private Color onTargetColor;
 	public AudioSource boxMovingSfx;
 	public AudioSource boxOnTargetSfx;
+
+	private Grid<Cell> grid;
+	private SpriteRenderer sr;
+	private Color onTargetColor = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 
 	private void Start() {
 		GameObject levelManager = GameObject.Find("level_manager");
 		this.grid = levelManager.GetComponent<LevelManager>().GetGrid();
-
 		this.sr = this.GetComponent<SpriteRenderer>();
-		this.defaultColor = this.sr.color;
-		this.onTargetColor = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 	}
 
 	public void OnMovingStarted(bool boxMovedOntoTarget) {

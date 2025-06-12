@@ -35,7 +35,7 @@ public class GridNode<T> {
 		}
 	}
 
-	// --------------------------------------------------
+	// ==================================================
 
 	public Vector2 GetPosition() {
 		return this.position;

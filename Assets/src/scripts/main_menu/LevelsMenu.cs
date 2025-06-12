@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelsMenu : MonoBehaviour {
-	private GameManager gameManager;
-	private GameObject mainMenu;
-
+	public List<Button> levelButtons = new List<Button>();
 	public GameObject buttonPrefab;
 	public GameObject backButtonPrefab;
-	public List<Button> levelButtons;
+
+	private GameManager gameManager;
+	private GameObject mainMenu;
 
     private void Start() {
 		this.gameManager = GameObject.Find("game_manager").GetComponent<GameManager>();
@@ -18,7 +18,7 @@ public class LevelsMenu : MonoBehaviour {
 
 		float BUTTON_HEIGHT = buttonPrefab.GetComponent<RectTransform>().rect.height;
 		int nLevels = gameManager.levels.Count;
-		Vector2 origin = new Vector2(0, ((nLevels - 1) * (BUTTON_HEIGHT + gameManager.VERTICAL_BUTTON_OFFSET)) / 2);
+		Vector2 origin = new Vector2(0, (nLevels - 1) * (BUTTON_HEIGHT + gameManager.VERTICAL_BUTTON_OFFSET) / 2);
 		for(int i = 0; i < nLevels; i++) {
 			GameObject levelButtonGO = GameObject.Instantiate<GameObject>(buttonPrefab, this.gameObject.transform);
 			levelButtonGO.transform.localPosition = origin - new Vector2(0, i * (BUTTON_HEIGHT + gameManager.VERTICAL_BUTTON_OFFSET));

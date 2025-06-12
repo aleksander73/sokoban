@@ -4,8 +4,6 @@ public class MainMenuManager : MonoBehaviour {
     private GameObjectAnimation<float> volumeAnimation;
 
     private void Start() {
-        CameraEffects cameraEffects = Camera.main.GetComponent<CameraEffects>();
-
         this.volumeAnimation = new GameObjectAnimation<float>(
             this.gameObject,
             new Animation<float>(0f, 2f, Interpolators.GetFloatLinear(0f, 0.5f, 2f)),
@@ -14,6 +12,8 @@ public class MainMenuManager : MonoBehaviour {
                 backgroundMusic.volume = soundVolume;
             }
         );
+
+        CameraEffects cameraEffects = Camera.main.GetComponent<CameraEffects>();
         cameraEffects.FadeIn(null);
     }
 
